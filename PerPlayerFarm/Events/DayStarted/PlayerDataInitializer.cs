@@ -1,0 +1,108 @@
+using Microsoft.Xna.Framework;
+using StardewModdingAPI;
+using StardewValley;
+
+namespace PerPlayerFarm.Events.DayStarted
+{
+    public static class PlayerDataInitializer
+    {
+
+        private static readonly string _cleanKey = Utils.Constants.CleanKey;
+
+        public static void ClearPpfIfFirstInit(IMonitor monitor)
+        {
+            IEnumerable<Farmer>? farmers = Game1.getAllFarmers();
+            if (farmers is not null)
+            {
+                foreach (Farmer? farmer in farmers)
+                {
+                    if (farmer is not null && !farmer.IsMainPlayer)
+                    {
+                        var uid = farmer.UniqueMultiplayerID;
+                        string locName = $"PPF_{uid}";
+                        var loc = Game1.getLocationFromName(locName);
+                        if (loc is null)
+                        {
+                            continue;
+                        }
+                        Farm farmLoc = (Farm)loc;
+                        CleanIfFirstInit(farmLoc, monitor);
+                    }
+                }
+            }
+        }
+
+        private static void CleanIfFirstInit(Farm loc, IMonitor monitor)
+        {
+            if (!Context.IsMainPlayer || loc is null)
+                return;
+
+            if (loc.modData.TryGetValue(_cleanKey, out var v) && v == "1")
+            {
+                monitor.Log($"[PPF] Initial cleaning already applied in {loc.Name}.", LogLevel.Trace);
+                return;
+            }
+
+            CleanLocation(loc);
+            loc.modData[_cleanKey] = "1";
+            monitor.Log($"[PPF] Initial cleaning applied in {loc.Name}.", LogLevel.Trace);
+        }
+
+        public static void CleanLocation(Farm loc)
+        {
+            /*
+                Weeds, Ervas daninhas, Weeds = 675, 674, 784
+                Stone, Pedra, Stone = 450, 343
+                Twig, Galho, Twig = 294, 295
+
+            */
+            var objectIdsToRemove = new HashSet<string> { "675", "450", "294", "295", "674", "784", "343" };
+            var objectKeysToRemove = new List<Vector2>();
+
+            foreach (var layer in loc.objects)
+            {
+                foreach (var kv in layer)
+                {
+                    var obj = kv.Value;
+                    if (obj != null && obj.ItemId != null && objectIdsToRemove.Contains(obj.ItemId))
+                    {
+                        objectKeysToRemove.Add(kv.Key);
+                    }
+                }
+            }
+            foreach (var key in objectKeysToRemove.Distinct())
+            {
+                loc.objects.Remove(key);
+            }
+            // loc.objects.Clear();
+
+            var terrainFeaturesIdsToRemove = new HashSet<string> { "Tree", "Grass" };
+            var terrainFeaturesKeysToRemove = new List<Vector2>();
+            foreach (var layer in loc.terrainFeatures)
+            {
+                foreach (var kv in layer)
+                {
+                    var tf = kv.Value;
+                    if (tf == null) continue;
+                    var name = tf.GetType().Name;
+                    if (terrainFeaturesIdsToRemove.Contains(name))
+                    {
+                        terrainFeaturesKeysToRemove.Add(kv.Key);
+                    }
+                }
+            }
+            foreach (var pos in terrainFeaturesKeysToRemove.Distinct())
+            {
+                loc.terrainFeatures.Remove(pos);
+            }
+            // loc.terrainFeatures.Clear();
+
+            // loc.largeTerrainFeatures?.Clear();
+
+            if (loc is Farm farm)
+            {
+                farm.resourceClumps.Clear();
+            }
+        }
+    }
+}
