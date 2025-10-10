@@ -21,7 +21,7 @@ namespace PerPlayerFarm.Events.DayStarted
         }
         public void OnDayStarted(object? sender, DayStartedEventArgs e)
         {
-            PlayerDataInitializer.ClearPpfIfFirstInit(_monitor);
+            PlayerDataInitializer.ClearPpfIfFirstInit(_monitor, _translate);
             if (!Context.IsMainPlayer)
             {
                 SaveLoaded.Locations.LoadPpfFarmsForInvited(_monitor, _translate);
@@ -32,8 +32,8 @@ namespace PerPlayerFarm.Events.DayStarted
                 {
                     PeerConnected.HouseWarpUtils.OverrideDefaultHouseWarpToPPF(farmer.UniqueMultiplayerID);
                 }
-                TeleportItem.Initializer(_monitor);
-                TeleportItem.OnDayStartedRetag(sender, e, _monitor);
+                TeleportItem.Initializer(_monitor, _translate);
+                TeleportItem.OnDayStartedRetag(sender, e, _monitor, _translate);
             }
 
             StripAllBuildingsDefault.Strip(_monitor, _translate);

@@ -11,6 +11,7 @@ namespace PerPlayerFarm.Utils
         internal static void Register(IModHelper helper, IMonitor monitor)
         {
             var cmd = helper.ConsoleCommands;
+            var translate = helper.Translation;
 
             // guarantees teleporters
             cmd.Add(
@@ -24,32 +25,35 @@ namespace PerPlayerFarm.Utils
                 "  <LocationName> = exact name of a location",
                 (name, args) =>
                 {
-                    if (!Context.IsWorldReady) { monitor.Log("World is not ready.", LogLevel.Warn); return; }
-                    if (!Context.IsMainPlayer) { monitor.Log("Only the host can guarantee teleporters.", LogLevel.Warn); return; }
+                    if (!Context.IsWorldReady) { monitor.Log(translate.Get("derexsv.ppf.log.warn.world_not_ready"), LogLevel.Warn); return; }
+                    if (!Context.IsMainPlayer) { monitor.Log(translate.Get("derexsv.ppf.log.warn.host_only_teleporters"), LogLevel.Warn); return; }
 
                     string mode = args.Length > 0 ? args[0] : "all";
                     switch (mode.ToLowerInvariant())
                     {
                         case "all":
-                            TeleportItem.Initializer(monitor);
-                            monitor.Log("[PPF] Guaranteed teleporters on all PPF_* and Farm.", LogLevel.Info);
+                            TeleportItem.Initializer(monitor, translate);
+                            monitor.Log(translate.Get("derexsv.ppf.log.info.teleporters_all"), LogLevel.Info);
                             break;
 
                         case "here":
                             {
                                 var loc = Game1.currentLocation;
-                                if (loc == null) { monitor.Log("Current location is null.", LogLevel.Warn); return; }
-                                TeleportItem.EnsureIn(loc, monitor);
-                                monitor.Log($"[PPF] Guaranteed teleporter in {loc.NameOrUniqueName ?? loc.Name}.", LogLevel.Info);
+                                if (loc == null) { monitor.Log(translate.Get("derexsv.ppf.log.warn.current_location_null"), LogLevel.Warn); return; }
+                                TeleportItem.EnsureIn(loc, monitor, translate);
+                                monitor.Log(translate.Get(
+                                    "derexsv.ppf.log.info.teleporter_location",
+                                    new { location = loc.NameOrUniqueName ?? loc.Name ?? string.Empty }
+                                ), LogLevel.Info);
                                 break;
                             }
 
                         case "farm":
                             {
                                 var farm = Game1.getLocationFromName("Farm");
-                                if (farm == null) { monitor.Log("Farm not found.", LogLevel.Warn); return; }
-                                TeleportItem.EnsureIn(farm, monitor);
-                                monitor.Log("[PPF] Guaranteed teleporter on Farm.", LogLevel.Info);
+                                if (farm == null) { monitor.Log(translate.Get("derexsv.ppf.log.warn.farm_not_found"), LogLevel.Warn); return; }
+                                TeleportItem.EnsureIn(farm, monitor, translate);
+                                monitor.Log(translate.Get("derexsv.ppf.log.info.teleporter_farm"), LogLevel.Info);
                                 break;
                             }
 
@@ -58,10 +62,13 @@ namespace PerPlayerFarm.Utils
                                 int count = 0;
                                 foreach (var loc in Game1.locations.Where(l => (l.NameOrUniqueName ?? l.Name ?? "").StartsWith("PPF_", StringComparison.OrdinalIgnoreCase)))
                                 {
-                                    TeleportItem.EnsureIn(loc, monitor);
+                                    TeleportItem.EnsureIn(loc, monitor, translate);
                                     count++;
                                 }
-                                monitor.Log($"[PPF] Guaranteed teleporters in {count} PPF_*.", LogLevel.Info);
+                                monitor.Log(translate.Get(
+                                    "derexsv.ppf.log.info.teleporters_ppf_count",
+                                    new { count }
+                                ), LogLevel.Info);
                                 break;
                             }
 
@@ -69,9 +76,19 @@ namespace PerPlayerFarm.Utils
                             {
                                 string target = string.Join(' ', args);
                                 var loc = Game1.getLocationFromName(target);
-                                if (loc == null) { monitor.Log($"Location '{target}' not found.", LogLevel.Warn); return; }
-                                TeleportItem.EnsureIn(loc, monitor);
-                                monitor.Log($"[PPF] Guaranteed teleporter in{loc.NameOrUniqueName ?? loc.Name}.", LogLevel.Info);
+                                if (loc == null)
+                                {
+                                    monitor.Log(translate.Get(
+                                        "derexsv.ppf.log.warn.location_not_found",
+                                        new { location = target }
+                                    ), LogLevel.Warn);
+                                    return;
+                                }
+                                TeleportItem.EnsureIn(loc, monitor, translate);
+                                monitor.Log(translate.Get(
+                                    "derexsv.ppf.log.info.teleporter_location",
+                                    new { location = loc.NameOrUniqueName ?? loc.Name ?? string.Empty }
+                                ), LogLevel.Info);
                                 break;
                             }
                     }
@@ -85,8 +102,8 @@ namespace PerPlayerFarm.Utils
                 "Use: ppf.clean here|all|ppf",
                 (name, args) =>
                 {
-                    if (!Context.IsWorldReady) { monitor.Log("World is not ready.", LogLevel.Warn); return; }
-                    if (!Context.IsMainPlayer) { monitor.Log("Only the host can clean.", LogLevel.Warn); return; }
+                    if (!Context.IsWorldReady) { monitor.Log(translate.Get("derexsv.ppf.log.warn.world_not_ready"), LogLevel.Warn); return; }
+                    if (!Context.IsMainPlayer) { monitor.Log(translate.Get("derexsv.ppf.log.warn.host_only_clean"), LogLevel.Warn); return; }
 
                     string mode = args.Length > 0 ? args[0] : "here";
                     switch (mode.ToLowerInvariant())
@@ -96,9 +113,12 @@ namespace PerPlayerFarm.Utils
                                 if (Game1.currentLocation is Farm f)
                                 {
                                     PlayerDataInitializer.CleanLocation(f);
-                                    monitor.Log($"[PPF] Cleaning applied in {f.NameOrUniqueName ?? f.Name}.", LogLevel.Info);
+                                    monitor.Log(translate.Get(
+                                        "derexsv.ppf.log.info.clean_location",
+                                        new { location = f.NameOrUniqueName ?? f.Name ?? string.Empty }
+                                    ), LogLevel.Info);
                                 }
-                                else monitor.Log("Current location is not Farm.", LogLevel.Warn);
+                                else monitor.Log(translate.Get("derexsv.ppf.log.warn.current_location_not_farm"), LogLevel.Warn);
                                 break;
                             }
 
@@ -110,7 +130,10 @@ namespace PerPlayerFarm.Utils
                                     PlayerDataInitializer.CleanLocation(f);
                                     n++;
                                 }
-                                monitor.Log($"[PPF] Cleaning applied to {n} Farms (includes main Farm and PPF_*).", LogLevel.Info);
+                                monitor.Log(translate.Get(
+                                    "derexsv.ppf.log.info.clean_farm_count",
+                                    new { count = n }
+                                ), LogLevel.Info);
                                 break;
                             }
 
@@ -123,12 +146,15 @@ namespace PerPlayerFarm.Utils
                                     PlayerDataInitializer.CleanLocation(f);
                                     n++;
                                 }
-                                monitor.Log($"[PPF] Cleaning applied to {n} PPF_*.", LogLevel.Info);
+                                monitor.Log(translate.Get(
+                                    "derexsv.ppf.log.info.clean_ppf_count",
+                                    new { count = n }
+                                ), LogLevel.Info);
                                 break;
                             }
 
                         default:
-                            monitor.Log("Uso: ppf.clean here|all|ppf", LogLevel.Info);
+                            monitor.Log(translate.Get("derexsv.ppf.log.info.clean_usage"), LogLevel.Info);
                             break;
                     }
                 }
@@ -141,8 +167,8 @@ namespace PerPlayerFarm.Utils
                 "Use: ppf.strip here|all",
                 (name, args) =>
                 {
-                    if (!Context.IsWorldReady) { monitor.Log("World is not ready.", LogLevel.Warn); return; }
-                    if (!Context.IsMainPlayer) { monitor.Log("Only the host can change buildings.", LogLevel.Warn); return; }
+                    if (!Context.IsWorldReady) { monitor.Log(translate.Get("derexsv.ppf.log.warn.world_not_ready"), LogLevel.Warn); return; }
+                    if (!Context.IsMainPlayer) { monitor.Log(translate.Get("derexsv.ppf.log.warn.host_only_buildings"), LogLevel.Warn); return; }
 
                     string mode = args.Length > 0 ? args[0] : "here";
                     switch (mode.ToLowerInvariant())
@@ -151,9 +177,9 @@ namespace PerPlayerFarm.Utils
                             {
                                 if (Game1.currentLocation is Farm f && IsPpf(f))
                                 {
-                                    StripOnce(f, monitor);
+                                    StripOnce(f, monitor, translate);
                                 }
-                                else monitor.Log("A location atual não é uma PPF_* do tipo Farm.", LogLevel.Warn);
+                                else monitor.Log(translate.Get("derexsv.ppf.log.warn.current_location_not_ppf"), LogLevel.Warn);
                                 break;
                             }
 
@@ -163,22 +189,25 @@ namespace PerPlayerFarm.Utils
                                 foreach (var f in Game1.locations.OfType<Farm>()
                                          .Where(l => IsPpf(l)))
                                 {
-                                    StripOnce(f, monitor);
+                                    StripOnce(f, monitor, translate);
                                     n++;
                                 }
-                                monitor.Log($"[PPF] Strip aplicado em {n} PPF_*.", LogLevel.Info);
+                                monitor.Log(translate.Get(
+                                    "derexsv.ppf.log.info.strip_ppf_count",
+                                    new { count = n }
+                                ), LogLevel.Info);
                                 break;
                             }
 
                         default:
-                            monitor.Log("Uso: ppf.strip here|all", LogLevel.Info);
+                            monitor.Log(translate.Get("derexsv.ppf.log.info.strip_usage"), LogLevel.Info);
                             break;
                     }
 
                     static bool IsPpf(GameLocation loc) =>
                         (loc.NameOrUniqueName ?? loc.Name ?? string.Empty).StartsWith("PPF_", StringComparison.OrdinalIgnoreCase);
 
-                    static void StripOnce(Farm farm, IMonitor mon)
+                    static void StripOnce(Farm farm, IMonitor mon, ITranslationHelper translate)
                     {
                         int removedHouse = 0, removedGh = 0;
 
@@ -216,7 +245,10 @@ namespace PerPlayerFarm.Utils
                             }
                         }
 
-                        mon.Log($"[PPF] {farm.Name}: strip Farmhouse={removedHouse}, Greenhouse={removedGh} (unlocked={ghUnlocked}).", LogLevel.Info);
+                        mon.Log(translate.Get(
+                            "derexsv.ppf.log.info.strip_summary",
+                            new { farm = farm.Name ?? string.Empty, farmhouses = removedHouse, greenhouses = removedGh, unlocked = ghUnlocked }
+                        ), LogLevel.Info);
                     }
                 }
             );

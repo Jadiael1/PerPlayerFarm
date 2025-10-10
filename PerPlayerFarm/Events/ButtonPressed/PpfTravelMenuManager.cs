@@ -15,6 +15,7 @@ namespace PerPlayerFarm.Events.ButtonPressed
         private readonly string _modUniqueId;
         private readonly List<PpfFarmEntry> _clientRegistry;
         private readonly HashSet<string> _clientStubs;
+        private readonly ITranslationHelper _translate;
 
         public PpfTravelMenuManager(IModHelper helper, IMonitor monitor, string modUniqueId, List<PpfFarmEntry> clientRegistry, HashSet<string> clientStubs)
         {
@@ -23,6 +24,7 @@ namespace PerPlayerFarm.Events.ButtonPressed
             _modUniqueId = modUniqueId;
             _clientRegistry = clientRegistry;
             _clientStubs = clientStubs;
+            _translate = helper.Translation;
         }
 
         internal void BroadcastRegistry(long? toPlayerId = null)
@@ -36,12 +38,18 @@ namespace PerPlayerFarm.Events.ButtonPressed
             if (toPlayerId.HasValue)
             {
                 _helper.Multiplayer.SendMessage(payload, RegistryMessageType, new[] { _modUniqueId }, new[] { toPlayerId.Value });
-                _monitor.Log($"[PPF] Record sent to {toPlayerId.Value} ({farms.Count} farms).", LogLevel.Trace);
+                _monitor.Log(_translate.Get(
+                    "derexsv.ppf.log.trace.registry_sent",
+                    new { player = toPlayerId.Value, count = farms.Count }
+                ), LogLevel.Trace);
             }
             else
             {
                 _helper.Multiplayer.SendMessage(payload, RegistryMessageType, new[] { _modUniqueId });
-                _monitor.Log($"[PPF] Broadcast record ({farms.Count} farms).", LogLevel.Trace);
+                _monitor.Log(_translate.Get(
+                    "derexsv.ppf.log.trace.registry_broadcast",
+                    new { count = farms.Count }
+                ), LogLevel.Trace);
             }
         }
 
@@ -51,7 +59,7 @@ namespace PerPlayerFarm.Events.ButtonPressed
                 return;
 
             _helper.Multiplayer.SendMessage(new { }, RegistryRequestType, new[] { _modUniqueId });
-            _monitor.Log("[PPF] Registration requested from host.", LogLevel.Trace);
+            _monitor.Log(_translate.Get("derexsv.ppf.log.trace.registry_requested"), LogLevel.Trace);
         }
 
         internal void OnPerPlayerFarmEnsured(long uid, bool created)
@@ -214,7 +222,10 @@ namespace PerPlayerFarm.Events.ButtonPressed
 
             Game1.locations.Add(loc);
             _clientStubs.Add(internalName);
-            _monitor.Log($"[PPF] (client) shadow created: {internalName}", LogLevel.Trace);
+            _monitor.Log(_translate.Get(
+                "derexsv.ppf.log.trace.client_shadow_created",
+                new { location = internalName }
+            ), LogLevel.Trace);
         }
 
         private static (int X, int Y) ClampToLocation(GameLocation? location, int x, int y, int fallbackX, int fallbackY)

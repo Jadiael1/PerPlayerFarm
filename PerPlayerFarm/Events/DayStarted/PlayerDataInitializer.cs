@@ -9,7 +9,7 @@ namespace PerPlayerFarm.Events.DayStarted
 
         private static readonly string _cleanKey = Utils.Constants.CleanKey;
 
-        public static void ClearPpfIfFirstInit(IMonitor monitor)
+        public static void ClearPpfIfFirstInit(IMonitor monitor, ITranslationHelper translate)
         {
             IEnumerable<Farmer>? farmers = Game1.getAllFarmers();
             if (farmers is not null)
@@ -26,26 +26,32 @@ namespace PerPlayerFarm.Events.DayStarted
                             continue;
                         }
                         Farm farmLoc = (Farm)loc;
-                        CleanIfFirstInit(farmLoc, monitor);
+                        CleanIfFirstInit(farmLoc, monitor, translate);
                     }
                 }
             }
         }
 
-        private static void CleanIfFirstInit(Farm loc, IMonitor monitor)
+        private static void CleanIfFirstInit(Farm loc, IMonitor monitor, ITranslationHelper translate)
         {
             if (!Context.IsMainPlayer || loc is null)
                 return;
 
             if (loc.modData.TryGetValue(_cleanKey, out var v) && v == "1")
             {
-                monitor.Log($"[PPF] Initial cleaning already applied in {loc.Name}.", LogLevel.Trace);
+                monitor.Log(translate.Get(
+                    "derexsv.ppf.log.trace.cleaning_already_applied",
+                    new { location = loc.Name ?? string.Empty }
+                ), LogLevel.Trace);
                 return;
             }
 
             CleanLocation(loc);
             loc.modData[_cleanKey] = "1";
-            monitor.Log($"[PPF] Initial cleaning applied in {loc.Name}.", LogLevel.Trace);
+            monitor.Log(translate.Get(
+                "derexsv.ppf.log.trace.cleaning_applied",
+                new { location = loc.Name ?? string.Empty }
+            ), LogLevel.Trace);
         }
 
         public static void CleanLocation(Farm loc)

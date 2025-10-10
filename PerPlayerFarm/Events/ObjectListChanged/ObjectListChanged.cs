@@ -59,12 +59,18 @@ namespace PerPlayerFarm.Events.ObjectListChanged
                     obj.modData[TeleportModDataKey] = isFarm ? TeleportModDataMainFarm : TeleportModDataPpf;
                     loc.modData[isFarm ? PlacedMainFarmKey : PlacedKey] = "1";
 
-                    _monitor?.Log($"[PPF] Mini-Obelisk placed manually in {name} was tagged for teleport.", LogLevel.Trace);
+                    _monitor?.Log(_translate.Get(
+                        "derexsv.ppf.log.trace.manual_obelisk_tagged",
+                        new { location = name }
+                    ), LogLevel.Trace);
                 }
             }
             catch (Exception ex)
             {
-                _monitor?.Log($"[PPF] OnObjectListChanged failed: {ex}", LogLevel.Warn);
+                _monitor?.Log(_translate.Get(
+                    "derexsv.ppf.log.warn.object_list_changed_failed",
+                    new { error = ex.ToString() }
+                ), LogLevel.Warn);
             }
         }
 

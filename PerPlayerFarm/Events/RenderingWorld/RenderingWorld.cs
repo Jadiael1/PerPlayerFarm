@@ -51,7 +51,10 @@ namespace PerPlayerFarm.Events.RenderingWorld
             }
             catch (Exception ex)
             {
-                _monitor.Log($"[PPF] Failed to prepare mailbox view: {ex}", LogLevel.Warn);
+                _monitor.Log(_translate.Get(
+                    "derexsv.ppf.log.warn.mailbox_prepare_failed",
+                    new { error = ex.ToString() }
+                ), LogLevel.Warn);
                 ResetState();
             }
         }

@@ -74,12 +74,18 @@ namespace PerPlayerFarm.Events.OnModMessageReceived
             if (toPlayerId.HasValue)
             {
                 _helper.Multiplayer.SendMessage(payload, _registryMessageType, new[] { _modUniqueId }, new[] { toPlayerId.Value });
-                _monitor.Log($"[PPF] Record sent to {toPlayerId.Value} ({farms.Count} farms).", LogLevel.Trace);
+                _monitor.Log(_translate.Get(
+                    "derexsv.ppf.log.trace.registry_sent",
+                    new { player = toPlayerId.Value, count = farms.Count }
+                ), LogLevel.Trace);
             }
             else
             {
                 _helper.Multiplayer.SendMessage(payload, _registryMessageType, new[] { _modUniqueId });
-                _monitor.Log($"[PPF] Broadcast record ({farms.Count} farms).", LogLevel.Trace);
+                _monitor.Log(_translate.Get(
+                    "derexsv.ppf.log.trace.registry_broadcast",
+                    new { count = farms.Count }
+                ), LogLevel.Trace);
             }
         }
 
@@ -95,7 +101,10 @@ namespace PerPlayerFarm.Events.OnModMessageReceived
                 if (payload?.Farms != null)
                     _clientRegistry.AddRange(payload.Farms);
 
-                _monitor.Log($"[PPF] Farm registration received ({_clientRegistry.Count}).", LogLevel.Trace);
+                _monitor.Log(_translate.Get(
+                    "derexsv.ppf.log.trace.registry_received",
+                    new { count = _clientRegistry.Count }
+                ), LogLevel.Trace);
                 return;
             }
 

@@ -18,7 +18,7 @@ namespace PerPlayerFarm.Events.SaveLoaded
             }
         }
 
-        private static void StripInFarm(Farm farm, IMonitor monitor)
+        private static void StripInFarm(Farm farm, IMonitor monitor, ITranslationHelper translate)
         {
             int removedHouse = 0;
             int removedGh = 0;
@@ -58,7 +58,10 @@ namespace PerPlayerFarm.Events.SaveLoaded
             }
 
             if (removedHouse + removedGh > 0)
-                monitor.Log($"[PPF] {farm.Name}: removidos Farmhouse={removedHouse}, Greenhouse={removedGh} (unlocked={ghUnlocked}).", LogLevel.Trace);
+                monitor.Log(translate.Get(
+                    "derexsv.ppf.log.trace.strip_summary",
+                    new { farm = farm.Name ?? string.Empty, farmhouses = removedHouse, greenhouses = removedGh, unlocked = ghUnlocked }
+                ), LogLevel.Trace);
         }
 
         private static bool IsPpf(GameLocation loc)
@@ -73,7 +76,7 @@ namespace PerPlayerFarm.Events.SaveLoaded
             foreach (var loc in Game1.locations)
             {
                 if (loc is Farm farm && IsPpf(farm))
-                    StripInFarm(farm, monitor);
+                    StripInFarm(farm, monitor, translate);
             }
         }
     }

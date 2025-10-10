@@ -96,7 +96,7 @@ namespace PerPlayerFarm.Events.DayStarted
             return null;
         }
 
-        private static bool TryPlaceBigCraftable(GameLocation loc, string qualifiedId, Vector2 anchor, IMonitor monitor, int maxRadius)
+        private static bool TryPlaceBigCraftable(GameLocation loc, string qualifiedId, Vector2 anchor, IMonitor monitor, int maxRadius, ITranslationHelper translate)
         {
             Vector2? target = FindFirstPlaceableTile(loc, anchor, maxRadius);
             if (target is null)
@@ -123,12 +123,15 @@ namespace PerPlayerFarm.Events.DayStarted
             }
             catch (Exception ex)
             {
-                monitor.Log($"[PPF] Error creating '{qualifiedId}': {ex}", LogLevel.Error);
+                monitor.Log(translate.Get(
+                    "derexsv.ppf.log.error.teleporter_create_failed",
+                    new { id = qualifiedId, error = ex.ToString() }
+                ), LogLevel.Error);
             }
             return false;
         }
 
-        private static bool TryPlaceExactlyAt(GameLocation loc, string qualifiedId, Vector2 tile, IMonitor monitor)
+        private static bool TryPlaceExactlyAt(GameLocation loc, string qualifiedId, Vector2 tile, IMonitor monitor, ITranslationHelper translate)
         {
             if (!IsGoodExact(loc, tile))
                 return false;
@@ -152,12 +155,15 @@ namespace PerPlayerFarm.Events.DayStarted
             }
             catch (Exception ex)
             {
-                monitor.Log($"[PPF] Error creating '{qualifiedId}' in {tile}: {ex}", LogLevel.Error);
+                monitor.Log(translate.Get(
+                    "derexsv.ppf.log.error.teleporter_create_failed_at_tile",
+                    new { id = qualifiedId, tile = tile.ToString(), error = ex.ToString() }
+                ), LogLevel.Error);
             }
             return false;
         }
 
-        public static void OnDayStartedRetag(object? sender, DayStartedEventArgs e, IMonitor monitor)
+        public static void OnDayStartedRetag(object? sender, DayStartedEventArgs e, IMonitor monitor, ITranslationHelper translate)
         {
             try
             {
@@ -172,16 +178,19 @@ namespace PerPlayerFarm.Events.DayStarted
                     bool isPpf = name.StartsWith("PPF_", StringComparison.OrdinalIgnoreCase);
                     if (!isFarm && !isPpf) continue;
 
-                    RetagMiniObelisksIn(loc, onlyIfMissingTag: true, monitor);
+                    RetagMiniObelisksIn(loc, onlyIfMissingTag: true, monitor, translate);
                 }
             }
             catch (Exception ex)
             {
-                monitor?.Log($"[PPF] OnDayStartedRetag failed: {ex}", LogLevel.Warn);
+                monitor?.Log(translate.Get(
+                    "derexsv.ppf.log.warn.retag_failed_start",
+                    new { error = ex.ToString() }
+                ), LogLevel.Warn);
             }
         }
 
-        private static void RetagMiniObelisksIn(GameLocation loc, bool onlyIfMissingTag, IMonitor monitor)
+        private static void RetagMiniObelisksIn(GameLocation loc, bool onlyIfMissingTag, IMonitor monitor, ITranslationHelper translate)
         {
             try
             {
@@ -209,7 +218,10 @@ namespace PerPlayerFarm.Events.DayStarted
             }
             catch (Exception ex)
             {
-                monitor.Log($"[PPF] RetagMiniObelisksIn failed: {ex}", LogLevel.Warn);
+                monitor.Log(translate.Get(
+                    "derexsv.ppf.log.warn.retag_failed_location",
+                    new { error = ex.ToString() }
+                ), LogLevel.Warn);
             }
         }
 
@@ -248,11 +260,11 @@ namespace PerPlayerFarm.Events.DayStarted
             return new Vector2(cx, cy);
         }
 
-        private static void EnsureInLocation(GameLocation loc, string flagKey, IMonitor monitor)
+        private static void EnsureInLocation(GameLocation loc, string flagKey, IMonitor monitor, ITranslationHelper translate)
         {
             if (loc == null)
             {
-                monitor.Log("[PPF] EnsureInLocation: null location.", LogLevel.Warn);
+                monitor.Log(translate.Get("derexsv.ppf.log.warn.ensure_location_null"), LogLevel.Warn);
                 return;
             }
 
@@ -263,36 +275,48 @@ namespace PerPlayerFarm.Events.DayStarted
                     loc.modData[flagKey] = "1";
 
                 // relabels any untagged Mini-Obelisk (old cases)
-                RetagMiniObelisksIn(loc, onlyIfMissingTag: true, monitor);
-                monitor.Log($"[PPF] Teleport already present in {loc.Name} (nothing to do).", LogLevel.Trace);
+                RetagMiniObelisksIn(loc, onlyIfMissingTag: true, monitor, translate);
+                monitor.Log(translate.Get(
+                    "derexsv.ppf.log.trace.teleporter_already_present",
+                    new { location = loc.Name ?? string.Empty }
+                ), LogLevel.Trace);
                 return;
             }
 
             // flag found but object missing => recreate
             if (loc.modData.TryGetValue(flagKey, out var placed) && placed == "1")
-                monitor.Log($"[PPF] Flag found, but object missing {loc.Name}. Recreating…", LogLevel.Trace);
+                monitor.Log(translate.Get(
+                    "derexsv.ppf.log.trace.teleporter_flag_recreate",
+                    new { location = loc.Name ?? string.Empty }
+                ), LogLevel.Trace);
 
             // exact attempt at (76.19)
             var preferred = GetPreferredAnchor(loc);
-            bool placedAtPreferred = TryPlaceExactlyAt(loc, TeleportQualifiedItemId, preferred, monitor);
+            bool placedAtPreferred = TryPlaceExactlyAt(loc, TeleportQualifiedItemId, preferred, monitor, translate);
 
             // fallback
-            bool placedOk = placedAtPreferred || TryPlaceBigCraftable(loc, TeleportQualifiedItemId, GetSafeAnchor(loc), monitor, maxRadius: 30);
+            bool placedOk = placedAtPreferred || TryPlaceBigCraftable(loc, TeleportQualifiedItemId, GetSafeAnchor(loc), monitor, maxRadius: 30, translate);
 
             if (placedOk)
             {
                 loc.modData[flagKey] = "1";
                 // ensures that any other existing Mini-Obelisks (without a tag) will also be tagged
-                RetagMiniObelisksIn(loc, onlyIfMissingTag: true, monitor);
-                monitor.Log($"[PPF] Mini-Obelisk added in {loc.Name}.", LogLevel.Info);
+                RetagMiniObelisksIn(loc, onlyIfMissingTag: true, monitor, translate);
+                monitor.Log(translate.Get(
+                    "derexsv.ppf.log.info.teleporter_added",
+                    new { location = loc.Name ?? string.Empty }
+                ), LogLevel.Info);
             }
             else
             {
-                monitor.Log($"[PPF] Failed to place Mini-Obelisk on {loc.Name} (no valid tiles found).", LogLevel.Warn);
+                monitor.Log(translate.Get(
+                    "derexsv.ppf.log.warn.teleporter_failed",
+                    new { location = loc.Name ?? string.Empty }
+                ), LogLevel.Warn);
             }
         }
 
-        public static void Initializer(IMonitor monitor)
+        public static void Initializer(IMonitor monitor, ITranslationHelper translate)
         {
             if (!Context.IsMainPlayer)
                 return;
@@ -306,7 +330,7 @@ namespace PerPlayerFarm.Events.DayStarted
                 if (name.StartsWith("PPF_", StringComparison.Ordinal))
                 {
                     anyPpf = true;
-                    EnsureInLocation(loc, PlacedKey, monitor);
+                    EnsureInLocation(loc, PlacedKey, monitor, translate);
                 }
             }
 
@@ -314,22 +338,22 @@ namespace PerPlayerFarm.Events.DayStarted
             {
                 var farm = Game1.getLocationFromName("Farm");
                 if (farm != null)
-                    EnsureInLocation(farm, PlacedMainFarmKey, monitor);
+                    EnsureInLocation(farm, PlacedMainFarmKey, monitor, translate);
             }
 
         }
 
-        internal static void EnsureIn(GameLocation loc, IMonitor monitor)
+        internal static void EnsureIn(GameLocation loc, IMonitor monitor, ITranslationHelper translate)
         {
             if (!Context.IsMainPlayer)
             {
-                monitor.Log("[PPF] Only the host can guarantee teleporters.", LogLevel.Warn);
+                monitor.Log(translate.Get("derexsv.ppf.log.warn.host_only_teleporters"), LogLevel.Warn);
                 return;
             }
 
             if (loc == null)
             {
-                monitor.Log("[PPF] EnsureIn: Null location", LogLevel.Warn);
+                monitor.Log(translate.Get("derexsv.ppf.log.warn.ensure_in_null_location"), LogLevel.Warn);
                 return;
             }
 
@@ -342,11 +366,14 @@ namespace PerPlayerFarm.Events.DayStarted
 
             if (string.IsNullOrEmpty(flagKey))
             {
-                monitor.Log($"[PPF] '{name}' is not Farm nor PPF_*; ignored.", LogLevel.Info);
+                monitor.Log(translate.Get(
+                    "derexsv.ppf.log.info.ensure_in_ignored",
+                    new { location = name }
+                ), LogLevel.Info);
                 return;
             }
 
-            EnsureInLocation(loc, flagKey, monitor);
+            EnsureInLocation(loc, flagKey, monitor, translate);
         }
     }
 }

@@ -45,7 +45,7 @@ namespace PerPlayerFarm.Events.UpdateTicked
                 bool hasMapProp = location.map.Properties.TryGetValue(_touchKey, out var mapProp);
                 if (!hasMapProp)
                 {
-                    _monitor.Log($"[PPF]: Map had no data injection.", LogLevel.Warn);
+                    _monitor.Log(_translate.Get("derexsv.ppf.log.warn.map_without_data"), LogLevel.Warn);
                     return;
                 }
 
@@ -71,7 +71,10 @@ namespace PerPlayerFarm.Events.UpdateTicked
                 List<WarpLocations>? warps = ListHelper.ConvertStringForList(touchData, _monitor, _translate);
                 if (warps is null)
                 {
-                    _monitor.Log($"[PPF] Error retrieving data from Warp ({currentTile.X},{currentTile.Y}).", LogLevel.Warn);
+                    _monitor.Log(_translate.Get(
+                        "derexsv.ppf.log.warn.warp_data_error",
+                        new { x = currentTile.X, y = currentTile.Y }
+                    ), LogLevel.Warn);
                     return;
                 }
 
@@ -79,7 +82,10 @@ namespace PerPlayerFarm.Events.UpdateTicked
                 GameLocation? targetLocation = Game1.getLocationFromName(targetLocationName);
                 if (targetLocation is null && !Context.IsMainPlayer)
                 {
-                    _monitor.Log($"[PPF] Destination location '{targetLocationName}' not found for tile warp ({currentTile.X},{currentTile.Y}).", LogLevel.Warn);
+                    _monitor.Log(_translate.Get(
+                        "derexsv.ppf.log.warn.warp_destination_missing",
+                        new { location = targetLocationName, x = currentTile.X, y = currentTile.Y }
+                    ), LogLevel.Warn);
                     return;
                 }
 
