@@ -1,0 +1,11 @@
+{
+    "editor.suggest.selectionMode": "never",
+    "editor.quickSuggestions": {
+        "other": "off",
+        "strings": "off",
+        "comments": "off"
+    },
+    "editor.inlineSuggest.enabled": false,
+    "dotnet.defaultSolution": "PerPlayerFarm.sln",
+    "dotnet.projects.enableFileBasedPrograms": false,
+}
