@@ -1,0 +1,10 @@
+{
+  "Name": "Per Player Farm",
+  "Author": "DerexSV",
+  "Version": "0.1.0",
+  "Description": "Creates farms per player (PPF_<id>), names and clears on creation.",
+  "UniqueID": "DerexSV.PerPlayerFarm",
+  "EntryDll": "PerPlayerFarm.dll",
+  "MinimumApiVersion": "4.3.2",
+  "UpdateKeys": []
+}
