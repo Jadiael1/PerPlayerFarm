@@ -1,3 +1,4 @@
+using PerPlayerFarm.Configuration;
 using PerPlayerFarm.Events.SaveLoaded;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -10,12 +11,14 @@ namespace PerPlayerFarm.Events.DayStarted
         private readonly IModHelper _helper;
         private readonly IMonitor _monitor;
         private readonly ITranslationHelper _translate;
+        private readonly ModConfig _config;
 
-        public DayStarted(IModHelper helper, IMonitor monitor)
+        public DayStarted(IModHelper helper, IMonitor monitor, ModConfig config)
         {
             _helper = helper;
             _monitor = monitor;
             _translate = helper.Translation;
+            _config = config;
             helper.Events.GameLoop.DayStarted += OnDayStarted;
 
         }
@@ -32,7 +35,7 @@ namespace PerPlayerFarm.Events.DayStarted
                 {
                     PeerConnected.HouseWarpUtils.OverrideDefaultHouseWarpToPPF(farmer.UniqueMultiplayerID);
                 }
-                TeleportItem.Initializer(_monitor, _translate);
+                TeleportItem.Initializer(_monitor, _translate, _config);
                 TeleportItem.OnDayStartedRetag(sender, e, _monitor, _translate);
             }
 

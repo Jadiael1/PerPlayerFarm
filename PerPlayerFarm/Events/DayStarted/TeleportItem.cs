@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using PerPlayerFarm.Configuration;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -7,7 +8,7 @@ namespace PerPlayerFarm.Events.DayStarted
 {
     public static class TeleportItem
     {
-        private static readonly Vector2 PreferredAnchor = new(74, 15);
+        private static readonly Vector2 DefaultPreferredAnchor = new(74, 15);
         private const string PlacedKey = Utils.Constants.TeleportPlacedKey;
         private const string PlacedMainFarmKey = Utils.Constants.TeleportPlacedMainFarmKey;
         private const string TeleportModDataKey = Utils.Constants.TeleportModDataKey;
@@ -15,14 +16,23 @@ namespace PerPlayerFarm.Events.DayStarted
         private const string TeleportModDataMainFarm = Utils.Constants.TeleportModDataMainFarm;
         private const string TeleportModDataPpf = Utils.Constants.TeleportModDataPpf;
 
-
-        private static Vector2 GetPreferredAnchor(GameLocation loc)
+        private static Vector2 GetPreferredAnchor(GameLocation loc, ModConfig teleporterConfig)
         {
-            var back = loc.Map?.GetLayer("Back");
-            if (back == null) return PreferredAnchor;
+            int rawX = teleporterConfig?.Teleporter.PreferredTileX ?? (int)DefaultPreferredAnchor.X;
+            int rawY = teleporterConfig?.Teleporter.PreferredTileY ?? (int)DefaultPreferredAnchor.Y;
 
-            int x = Math.Clamp((int)PreferredAnchor.X, 0, back.LayerWidth - 1);
-            int y = Math.Clamp((int)PreferredAnchor.Y, 0, back.LayerHeight - 1);
+            if (rawX < 0 || rawY < 0)
+            {
+                rawX = (int)DefaultPreferredAnchor.X;
+                rawY = (int)DefaultPreferredAnchor.Y;
+            }
+
+            var configuredAnchor = new Vector2(rawX, rawY);
+            var back = loc.Map?.GetLayer("Back");
+            if (back == null) return configuredAnchor;
+
+            int x = Math.Clamp((int)configuredAnchor.X, 0, back.LayerWidth - 1);
+            int y = Math.Clamp((int)configuredAnchor.Y, 0, back.LayerHeight - 1);
             return new Vector2(x, y);
         }
 
@@ -260,7 +270,7 @@ namespace PerPlayerFarm.Events.DayStarted
             return new Vector2(cx, cy);
         }
 
-        private static void EnsureInLocation(GameLocation loc, string flagKey, IMonitor monitor, ITranslationHelper translate)
+        private static void EnsureInLocation(GameLocation loc, string flagKey, IMonitor monitor, ITranslationHelper translate, ModConfig config)
         {
             if (loc == null)
             {
@@ -291,7 +301,7 @@ namespace PerPlayerFarm.Events.DayStarted
                 ), LogLevel.Trace);
 
             // exact attempt at (76.19)
-            var preferred = GetPreferredAnchor(loc);
+            var preferred = GetPreferredAnchor(loc, config);
             bool placedAtPreferred = TryPlaceExactlyAt(loc, TeleportQualifiedItemId, preferred, monitor, translate);
 
             // fallback
@@ -316,7 +326,7 @@ namespace PerPlayerFarm.Events.DayStarted
             }
         }
 
-        public static void Initializer(IMonitor monitor, ITranslationHelper translate)
+        public static void Initializer(IMonitor monitor, ITranslationHelper translate, ModConfig config)
         {
             if (!Context.IsMainPlayer)
                 return;
@@ -330,7 +340,7 @@ namespace PerPlayerFarm.Events.DayStarted
                 if (name.StartsWith("PPF_", StringComparison.Ordinal))
                 {
                     anyPpf = true;
-                    EnsureInLocation(loc, PlacedKey, monitor, translate);
+                    EnsureInLocation(loc, PlacedKey, monitor, translate, config);
                 }
             }
 
@@ -338,12 +348,12 @@ namespace PerPlayerFarm.Events.DayStarted
             {
                 var farm = Game1.getLocationFromName("Farm");
                 if (farm != null)
-                    EnsureInLocation(farm, PlacedMainFarmKey, monitor, translate);
+                    EnsureInLocation(farm, PlacedMainFarmKey, monitor, translate, config);
             }
 
         }
 
-        internal static void EnsureIn(GameLocation loc, IMonitor monitor, ITranslationHelper translate)
+        internal static void EnsureIn(GameLocation loc, IMonitor monitor, ITranslationHelper translate, ModConfig config)
         {
             if (!Context.IsMainPlayer)
             {
@@ -373,7 +383,7 @@ namespace PerPlayerFarm.Events.DayStarted
                 return;
             }
 
-            EnsureInLocation(loc, flagKey, monitor, translate);
+            EnsureInLocation(loc, flagKey, monitor, translate, config);
         }
     }
 }

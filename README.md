@@ -61,6 +61,39 @@ Tudo foi pensado para multiplayer (host autoritativo) e também funciona em spli
 
 ---
 
+## 🧠 Motivação & decisões de design
+
+Stardew Valley nasceu como experiência solo; mesmo com o multiplayer, a estrutura padrão (uma fazenda compartilhada, poucas cabines e dinheiro conjunto opcional) é apertada para quem quer progresso independente. O objetivo deste mod é dar a cada convidado uma fazenda plena, isolada do host, sem abandonar os fluxos vanilla (cabines, Robin, save original).
+
+### Primeiros experimentos e contras levantados
+
+No protótipo inicial imaginei um ciclo com *templates* (`PPF_Template`) controlados pelo host:
+
+1. O save começa com uma `PPF_Template`.
+2. O host visitaria a Robin e construiria uma cabine/casa nessa template.
+3. Quando um convidado entrasse, a `PPF_Template` viraria `PPF_<INVITER_UID>`.
+4. O host ganharia outra `PPF_Template` vazia para futuros convidados, repetindo o processo.
+
+Esse fluxo esbarrou em diversos problemas:
+
+* **Integração com a Robin:** alterar o menu vanilla para listar mapas personalizados e permitir construção fora da fazenda principal conflita com outros mods e exige hooks profundos em UI, validação de tiles e custos.
+* **Persistência delicada:** mover a casa do convidado para uma location totalmente customizada significa que, se o mod for desativado, o jogo perde a referência da residência; o convidado pode ficar sem ponto de spawn/cama válidos.
+* **Compatibilidade com saves existentes:** converter ou reconstruir `GameLocation` ↔ `Farm` dinamicamente para cada convidado gera riscos de corrupção (itens perdidos, animais sem casa, missões quebradas).
+* **Manutenção de múltiplas templates:** garantir que sempre exista uma `PPF_Template` livre, promover nomes únicos e limpar resíduos deixaria o fluxo propenso a inconsistências, especialmente em sessões com muitos convidados entrando/saindo.
+
+### Abordagem final
+
+Para mitigar esses riscos, optei por manter as cabines vanilla no mapa principal e criar **PPFs dedicadas apenas como “fazendas paralelas”**:
+
+* Cada convidado ganha uma location `PPF_<UID>` de fato (`Farm` completa), mas a cabine original permanece na fazenda do host. Se o mod for desativado, o jogador ainda tem casa e spawn válidos.
+* Uma **fachada (Log Cabin customizada)** é adicionada à PPF do dono; a porta executa ação personalizada que teleporta o jogador para a sua cabine real. A caixa de correio usa os tiles vanilla e exibe animação de cartas novas.
+* Um **obelisco customizado** (`(BC)DerexSV.PPF_Teleporter`) aparece tanto na fazenda principal quanto em todas as PPFs. Ele gerencia a viagem entre fazendas por um menu que respeita disponibilidade e status online.
+* Warps de entrada da fazenda (Bus Stop, Forest, Backwoods, etc.) são sincronizados para levar cada jogador diretamente à sua `PPF_*`, mantendo a experiência “cada um na sua fazenda”.
+
+Essa arquitetura mantém a compatibilidade com o jogo base, reduz impacto se o mod for removido e ainda entrega o espaço dedicado que motivou o projeto.
+
+---
+
 ## 🕹️ Como usar (jogador)
 
 1. **Host** carrega o save normalmente. As PPFs dos jogadores conhecidos são criadas/garantidas.
@@ -96,9 +129,9 @@ Tudo foi pensado para multiplayer (host autoritativo) e também funciona em spli
 
 ## ⚙️ Configuração & personalização
 
-* **Âncora do teleporter**: ajuste `PreferredAnchor` em `PpfTeleportItemPlacer` para definir a posição preferencial (x,y). O mod fará fallback automático se o tile estiver bloqueado.
+* **Âncora do teleporter**: ajuste `Teleporter.PreferredTileX` / `Teleporter.PreferredTileY` em `config.json`. Se ausentes ou inválidos, o mod usa o fallback padrão (74,15) e ainda aplica clamp ao mapa.
 * **Aparência do teleporter**: mude o sprite apontando `Texture`/`SpriteIndex` no bloco `Data/BigCraftables` de `AssetRequested`.
-* **Limpeza**: `PpfCleanHelper.CleanLocation(Farm)` pode ser chamada manualmente (ou via console) se quiser re‑limpar uma PPF.
+* **Limpeza**: utilize `ppf.clean` (console) para reaplicar a limpeza leve nas PPFs.
 
 ---
 
@@ -137,21 +170,51 @@ Tudo foi pensado para multiplayer (host autoritativo) e também funciona em spli
 * **ModEntry**: registra handlers e inicializa gerenciadores.
 * **Events/**
 
-  * `AssetRequested`: injeta/edita `Maps/*`, `Data/Buildings`, `Data/BigCraftables`.
-  * `LoadStageChanged`, `PeerConnected`: garantem PPFs conforme players conhecidos/entrantes.
-  * `DayStartedHostSync` / `DayStartedClientShadow` / `SaveLoadedClientShadow`: sincronizam PPFs e stubs.
-  * `ButtonPressed`: porta/caixa‑de‑correio da fachada e abertura do menu via interação.
-  * `MailboxDisplay`: overlay do ícone de carta na PPF do dono.
+  * `AssetRequested/*`: injeta/edita `Maps/*`, `Data/Buildings`, `Data/BigCraftables` e marca warps customizados.
+  * `ButtonPressed/*`: trata interação com o teleporter exclusivo, porta da fachada e menu de viagem.
+  * `DayStarted/*`: limpeza inicial, garantia de teleporters e ajustes de warps no começo do dia.
+  * `LoadStageChanged/*`: garante PPFs conhecidas ao carregar/criar o save, com base em dados persistidos e farmers.
+  * `ModMessageReceived`: sincroniza o “registro” de PPFs via mensagens SMAPI.
+  * `ObjectListChanged`: reetiqueta Mini‑Obelisks colocados manualmente para manter o teleporte funcional.
+  * `PeerConnected/*`: host cria/garante recursos da PPF para novos jogadores e atualiza warps da casa.
+  * `RenderedWorld` / `RenderingWorld`: gerenciam e desenham o indicador de correio sobre a fachada do dono.
+  * `ReturnedToTitle`: limpa caches de cliente ao voltar para o menu principal.
+  * `SaveLoaded/*`: carrega a PPF do convidado (cliente) e faz strip de construções vanilla nas PPF_* do host.
+  * `Saving`: persiste `ppf.locations` com os UIDs conhecidos.
+  * `UpdateTicked`: substitui warps do mapa para levar cada jogador à sua PPF correspondente.
 * **Utils/**
 
-  * `EnsurePerPlayerFarm`: cria/garante PPF_* e persiste `ppf.locations`.
-  * `PpfWarpHelper`: cabin ↔ PPF (warps) e entrada/saída.
-  * `PpfTravelMenuManager`: menu de viagem + mensagens multiplayer com registro de PPFs.
-  * `PpfTeleportItemPlacer`: teleporter `(BC)DerexSV.PPF_Teleporter` (âncora + fallback + re‑tag).
-  * `PpfFarmVanillaStripper`: remove **Farmhouse** sempre e **Greenhouse se quebrada** nas PPF_* (contínuo).
-  * `PpfCleanHelper`: limpeza leve de objetos/terreno/resource clumps.
-  * `PpfBuildingHelper`: metadados do dono e helpers da fachada.
-  * `ListHelper` / `WarpLocations`: utilitários para parsing de warps.
+  * `Constants`: chaves/modData compartilhadas pelo mod.
+  * `ListHelper`: parsing/serialização das strings de warp.
+  * `MailboxState`: estado temporário usado durante Rendering/RenderedWorld.
+  * `PpfConsoleCommands`: comandos `ppf.ensure-teleports`, `ppf.clean` e `ppf.strip`.
+* **Types/**
+
+  * `PpfFarmEntry`, `PpfRegistryMessage`, `PpfSaveData`, `WarpLocations`: modelos de dados para multiplayer e persistência.
+* **Contents/**
+
+  * `Buildings/LogCabin.cs`: fachada PPF (`PPF_CabinFacade`).
+  * `Itens/PPFTeleporter.cs`: teleporter exclusivo `(BC)DerexSV.PPF_Teleporter`.
+* **i18n/**
+
+  * Arquivos `*.json` com todas as mensagens de log e feedback localizados.
+* **Configuration/**
+
+  * `ModConfig`: opções de configuração carregadas do `config.json` do SMAPI.
+
+### Pontos de reutilização chave
+
+Alguns utilitários aparecem em diversos fluxos. Ao alterá-los, verifique todos os chamadores:
+
+* `TeleportItem.Initializer` (`Events/DayStarted`, `Utils/PpfConsoleCommands`): garante/reativa teleporters tanto no ciclo diário quanto via comandos.
+* `HouseWarpUtils.OverrideDefaultHouseWarpToPPF` (`Events/DayStarted`, `Events/LoadStageChanged`, `Events/PeerConnected`): substitui o warp padrão das cabanas pela saída na PPF do dono.
+* `Peerconnected.Locations.LoadInvitedPpfFarmsForHost` / `LoadFacadeCabinInPpfOfInvitedForHost` (`Events/LoadStageChanged`, `Events/PeerConnected`): asseguram que host tenha a infraestrutura da PPF dos convidados.
+* `Peerconnected.Locations.TrackOwner` (`Events/LoadStageChanged`, `Events/PeerConnected`): mantém o registro UID ↔ PPF consolidado no save.
+* `SaveLoaded.Locations.LoadPpfFarmsForInvited` (`Events/SaveLoaded`, `Events/DayStarted`): carrega a PPF “shadow” para clientes reconectarem-se.
+* `StripAllBuildingsDefault.Strip` (`Events/SaveLoaded`, `Events/DayStarted`): remove continuamente construções vanilla em PPF_*.
+* `PlayerDataInitializer.CleanLocation` (`Events/DayStarted`, `Utils/PpfConsoleCommands`): limpeza inicial reutilizada pelo comando `ppf.clean`.
+* `ListHelper.ConvertStringForList` (`Events/AssetRequested/FarmEntries`, `Events/UpdateTicked`): desserializa warps injetados no mapa.
+* `PpfBuildingHelper.TryGetOwnerUid` / `GetMailboxTile` (`Events/ButtonPressed`, `Events/RenderedWorld`): definem dono e tiles para interações e overlay.
 
 ---
 
@@ -171,12 +234,12 @@ Tudo foi pensado para multiplayer (host autoritativo) e também funciona em spli
 
 ## 🤝 Contribuições
 
-Contribuições **são bem‑vindas** (issues, sugestões, PRs)! Siga as boas práticas:
+Contribuições **são bem‑vindas** (issues, sugestões, patches, PRs)! Para alinhar expectativas:
 
-* Estilo C# consistente (.NET 6, nullable‑enabled).
-* Eventos SMAPI: preferir handlers enxutos por classe, log `[PPF]` com `LogLevel.Trace/Info/Warn` conforme o caso.
-* Idempotência primeiro: toda ação deve poder rodar múltiplas vezes sem duplicar objetos/dados.
-* Multiplayer: lembre que apenas o **host** altera mundo; clientes devem apenas refletir estado.
+- Antes de começar uma funcionalidade nova, **abra uma issue** descrevendo a proposta e aguarde validação.
+- Combine escopo/esforço na issue; depois envie o PR referenciando-a. Isso evita trabalho não aprovado.
+- Para correções pontuais (docs/bugs), PR direto é aceito, mas ainda é recomendado sinalizar na issue correspondente.
+- No código C#, mantenha o estilo (.NET 6, nullable enabled), logs `[PPF]` consistentes e ações idempotentes.
 
 > **Importante (licenciamento):** Este mod **não é software livre**. **Cópias modificadas ou forks para redistribuição não são permitidos** sem autorização do autor. Pull Requests e patches são aceitos neste repositório, sob revisão.
 
@@ -187,7 +250,7 @@ Contribuições **são bem‑vindas** (issues, sugestões, PRs)! Siga as boas pr
 **Todos os direitos reservados.**
 
 * Você pode **instalar e usar** o mod no seu jogo.
-* Você pode **propor mudanças** via PR/patch neste repositório.
+* Você pode **propor melhorias** via issues/PRs neste repositório oficial.
 * **Não é permitido** publicar forks, criar mods derivados ou redistribuir versões modificadas sem consentimento explícito do autor.
 
 ---

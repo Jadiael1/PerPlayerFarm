@@ -1,3 +1,4 @@
+using PerPlayerFarm.Configuration;
 using PerPlayerFarm.Events.DayStarted;
 using PerPlayerFarm.Events.SaveLoaded;
 using StardewModdingAPI;
@@ -8,7 +9,7 @@ namespace PerPlayerFarm.Utils
 {
     internal static class PpfConsoleCommands
     {
-        internal static void Register(IModHelper helper, IMonitor monitor)
+        internal static void Register(IModHelper helper, IMonitor monitor, ModConfig config)
         {
             var cmd = helper.ConsoleCommands;
             var translate = helper.Translation;
@@ -32,7 +33,7 @@ namespace PerPlayerFarm.Utils
                     switch (mode.ToLowerInvariant())
                     {
                         case "all":
-                            TeleportItem.Initializer(monitor, translate);
+                            TeleportItem.Initializer(monitor, translate, config);
                             monitor.Log(translate.Get("derexsv.ppf.log.info.teleporters_all"), LogLevel.Info);
                             break;
 
@@ -40,7 +41,7 @@ namespace PerPlayerFarm.Utils
                             {
                                 var loc = Game1.currentLocation;
                                 if (loc == null) { monitor.Log(translate.Get("derexsv.ppf.log.warn.current_location_null"), LogLevel.Warn); return; }
-                                TeleportItem.EnsureIn(loc, monitor, translate);
+                                TeleportItem.EnsureIn(loc, monitor, translate, config);
                                 monitor.Log(translate.Get(
                                     "derexsv.ppf.log.info.teleporter_location",
                                     new { location = loc.NameOrUniqueName ?? loc.Name ?? string.Empty }
@@ -52,7 +53,7 @@ namespace PerPlayerFarm.Utils
                             {
                                 var farm = Game1.getLocationFromName("Farm");
                                 if (farm == null) { monitor.Log(translate.Get("derexsv.ppf.log.warn.farm_not_found"), LogLevel.Warn); return; }
-                                TeleportItem.EnsureIn(farm, monitor, translate);
+                                TeleportItem.EnsureIn(farm, monitor, translate, config);
                                 monitor.Log(translate.Get("derexsv.ppf.log.info.teleporter_farm"), LogLevel.Info);
                                 break;
                             }
@@ -62,7 +63,7 @@ namespace PerPlayerFarm.Utils
                                 int count = 0;
                                 foreach (var loc in Game1.locations.Where(l => (l.NameOrUniqueName ?? l.Name ?? "").StartsWith("PPF_", StringComparison.OrdinalIgnoreCase)))
                                 {
-                                    TeleportItem.EnsureIn(loc, monitor, translate);
+                                    TeleportItem.EnsureIn(loc, monitor, translate, config);
                                     count++;
                                 }
                                 monitor.Log(translate.Get(
@@ -84,7 +85,7 @@ namespace PerPlayerFarm.Utils
                                     ), LogLevel.Warn);
                                     return;
                                 }
-                                TeleportItem.EnsureIn(loc, monitor, translate);
+                                TeleportItem.EnsureIn(loc, monitor, translate, config);
                                 monitor.Log(translate.Get(
                                     "derexsv.ppf.log.info.teleporter_location",
                                     new { location = loc.NameOrUniqueName ?? loc.Name ?? string.Empty }

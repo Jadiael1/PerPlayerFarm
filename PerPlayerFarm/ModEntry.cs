@@ -1,3 +1,4 @@
+using PerPlayerFarm.Configuration;
 using PerPlayerFarm.Events.AssetRequested;
 using PerPlayerFarm.Events.ButtonPressed;
 using PerPlayerFarm.Events.DayStarted;
@@ -27,7 +28,9 @@ namespace PerPlayerFarm
 
         public override void Entry(IModHelper helper)
         {
-            PpfConsoleCommands.Register(helper, this.Monitor);
+            var config = helper.ReadConfig<ModConfig>();
+
+            PpfConsoleCommands.Register(helper, this.Monitor, config);
             // RenderingWorld, RenderedWorld
             var mailboxState = new MailboxState();
 
@@ -36,7 +39,7 @@ namespace PerPlayerFarm
             _ = new SaveLoaded(helper, this.Monitor);
             _ = new PeerConnected(helper, this.Monitor);
             _ = new LoadStageChanged(helper, this.Monitor);
-            _ = new DayStarted(helper, this.Monitor);
+            _ = new DayStarted(helper, this.Monitor, config);
             _ = new ButtonPressed(helper, this.Monitor, this.ModManifest.UniqueID, _clientRegistry, _clientStubs);
             _ = new ModMessageReceived(helper, this.Monitor, this.ModManifest.UniqueID, _clientRegistry);
             _ = new ReturnedToTitle(helper, this.Monitor, _clientRegistry, _clientStubs);
