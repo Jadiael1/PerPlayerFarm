@@ -1,5 +1,7 @@
 # Per Player Farm (PPF)
 
+> 🌍 README em outros idiomas: [Português (BR)](README.md) · [English](README.en.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Magyar](README.hu.md) · [Italiano](README.it.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Русский](README.ru.md) · [Türkçe](README.tr.md) · [中文](README.zh.md)
+
 > **Um mundo de fazendas paralelas, uma para cada jogador.**
 >
 > Compatível com **Stardew Valley 1.6.15** e **SMAPI 4.3.2**.
