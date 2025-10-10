@@ -1,0 +1,10 @@
+{
+    "derexsv.ppf.log.notice.map_has_no_warp_prop": "[PPF]: Warp Props Not Found.",
+    "derexsv.ppf.log.notice.null_tile_at_position_xy": "[PPF]: Error getting tile at position {tyleX}, {tileY}. Warp not added.",
+    "derexsv.ppf.log.notice.invited_ppf_farms_were_loaded_to_the_host": "[PPF]: Invited farm {{PPF}} has been loaded on the host.",
+    "derexsv.ppf.log.notice.facade_cabin_were_loaded_into_the_invited_farms_at_the_host": "[PPF]: The facade cabin of invited was loaded on the farm {{PPF}} to host.",
+    "derexsv.ppf.log.notice.failed_read_save_data": "[PPF] Failed to read save-data '{{saveKey}}': {{message}}. Using empty.",
+    "derexsv.ppf.log.notice.invited_ppf_farm_was_loaded_to_the_invited": "[PPF]: The invited farm {{PPF}} has been loaded into the invited.",
+    "derexsv.ppf.log.notice.convert_string_for_list_error_is_not_divisible_by_the_configuration": "[PPF]: Warning: The input sequence does not have a number of elements that is a multiple of {{groupSize}}.",
+    "derexsv.ppf.log.notice.convert_string_for_list_error_exception": "[PPF]: Unknown error getting teleports"
+}
