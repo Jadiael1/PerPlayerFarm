@@ -1,3 +1,4 @@
+using StardewModdingAPI;
 using StardewValley.GameData.BigCraftables;
 
 namespace PerPlayerFarm.Contents.Itens
@@ -5,7 +6,7 @@ namespace PerPlayerFarm.Contents.Itens
     public class PPFTeleporter : BigCraftableData
     {
         private readonly string _ppfTeleporterId;
-        public PPFTeleporter()
+        public PPFTeleporter(ITranslationHelper translate)
         {
             _ppfTeleporterId = Utils.Constants.PpfTeleporterId;
             this.Name = _ppfTeleporterId;
