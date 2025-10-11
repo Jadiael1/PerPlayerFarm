@@ -1,3 +1,4 @@
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley.GameData.BigCraftables;
 
@@ -5,7 +6,7 @@ namespace PerPlayerFarm.Events.AssetRequested
 {
     public static class PpfTeleporter
     {
-        public static void AddIfNotExists(AssetRequestedEventArgs e)
+        public static void AddIfNotExists(AssetRequestedEventArgs e, ITranslationHelper translate)
         {
             if (e.NameWithoutLocale.IsEquivalentTo("Data/BigCraftables"))
             {
@@ -15,7 +16,7 @@ namespace PerPlayerFarm.Events.AssetRequested
 
                     if (!dict.ContainsKey(Utils.Constants.PpfTeleporterId))
                     {
-                        dict[Utils.Constants.PpfTeleporterId] = new Contents.Itens.PPFTeleporter();
+                        dict[Utils.Constants.PpfTeleporterId] = new Contents.Itens.PPFTeleporter(translate);
                     }
                 }, AssetEditPriority.Early);
             }
