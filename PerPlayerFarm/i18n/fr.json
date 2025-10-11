@@ -51,5 +51,18 @@
     "derexsv.ppf.log.trace.registry_received": "[PPF] Registre des fermes reçu ({{count}}).",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] Échec de la préparation de l'affichage de la boîte aux lettres : {{error}}.",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] Mini-obélisque placé manuellement dans {{location}} marqué pour le téléport.",
-    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged a échoué : {{error}}."
+    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged a échoué : {{error}}.",
+    "derexsv.ppf.bigcraftable.teleporter.name": "Téléporteur PPF",
+    "derexsv.ppf.bigcraftable.teleporter.description": "Téléporte entre les PPF_* et la ferme principale via le menu de voyage.",
+    "derexsv.ppf.travelmenu.error.cannot_travel": "Vous ne pouvez pas voyager pour le moment.",
+    "derexsv.ppf.travelmenu.info.syncing": "Synchronisation des fermes...",
+    "derexsv.ppf.travelmenu.info.none": "Aucune ferme disponible.",
+    "derexsv.ppf.travelmenu.label.online": "{{name}} (en ligne)",
+    "derexsv.ppf.travelmenu.label.offline": "{{name}} (hors ligne)",
+    "derexsv.ppf.travelmenu.prev_page": "← Page précédente",
+    "derexsv.ppf.travelmenu.next_page": "Page suivante →",
+    "derexsv.ppf.travelmenu.prompt.choose_farm": "Choisissez la ferme que vous souhaitez visiter :",
+    "derexsv.ppf.command.ensure_teleports.description": "Sécurise les téléporteurs PPF.\nUtilisation : ppf.ensure-teleports all|here|farm|ppf|<LocationName>\n  all  = toutes les PPF_* et la ferme principale\n  here = uniquement dans la location actuelle\n  farm = uniquement sur la ferme principale\n  ppf  = uniquement dans toutes les PPF_*\n  <LocationName> = nom exact d'une location",
+    "derexsv.ppf.command.clean.description": "Nettoie débris/herbes/arbres/ressources (PPF Clean Helper).\nUtilisation : ppf.clean here|all|ppf",
+    "derexsv.ppf.command.strip.description": "Supprime les bâtiments vanilla dans PPF_* (Farmhouse toujours, Greenhouse si cassée).\nUtilisation : ppf.strip here|all"
 }

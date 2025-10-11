@@ -17,13 +17,7 @@ namespace PerPlayerFarm.Utils
             // guarantees teleporters
             cmd.Add(
                 "ppf.ensure-teleports",
-                "Secures PPF teleporters.\n" +
-                "Use: ppf.ensure-teleports all|here|farm|ppf|<LocationName>\n" +
-                "  all  = all PPF_* and Farm\n" +
-                "  here = only in the current location\n" +
-                "  farm = only on the main Farm\n" +
-                "  ppf  = only in PPF_* (all)\n" +
-                "  <LocationName> = exact name of a location",
+                translate.Get("derexsv.ppf.command.ensure_teleports.description"),
                 (name, args) =>
                 {
                     if (!Context.IsWorldReady) { monitor.Log(translate.Get("derexsv.ppf.log.warn.world_not_ready"), LogLevel.Warn); return; }
@@ -99,8 +93,7 @@ namespace PerPlayerFarm.Utils
             // light cleaning (objects/TF)
             cmd.Add(
                 "ppf.clean",
-                "Cleans debris/grass/trees/farm resources (Ppf Clean Helper).\n" +
-                "Use: ppf.clean here|all|ppf",
+                translate.Get("derexsv.ppf.command.clean.description"),
                 (name, args) =>
                 {
                     if (!Context.IsWorldReady) { monitor.Log(translate.Get("derexsv.ppf.log.warn.world_not_ready"), LogLevel.Warn); return; }
@@ -164,8 +157,7 @@ namespace PerPlayerFarm.Utils
             // stripper: always removes Farmhouse and Greenhouse if broken, in PPF_*
             cmd.Add(
                 "ppf.strip",
-                "Removes vanilla buildings in PPF_* (Farmhouse always, Greenhouse if broken).\n" +
-                "Use: ppf.strip here|all",
+                translate.Get("derexsv.ppf.command.strip.description"),
                 (name, args) =>
                 {
                     if (!Context.IsWorldReady) { monitor.Log(translate.Get("derexsv.ppf.log.warn.world_not_ready"), LogLevel.Warn); return; }

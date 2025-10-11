@@ -10,8 +10,8 @@ namespace PerPlayerFarm.Contents.Itens
         {
             _ppfTeleporterId = Utils.Constants.PpfTeleporterId;
             this.Name = _ppfTeleporterId;
-            this.DisplayName = "PPF Teleporter";
-            this.Description = "Teleports between PPF_* and the main Farm via the menu.";
+            this.DisplayName = translate.Get("derexsv.ppf.bigcraftable.teleporter.name");
+            this.Description = translate.Get("derexsv.ppf.bigcraftable.teleporter.description");
             this.CanBePlacedIndoors = true;
             this.CanBePlacedOutdoors = true;
             this.Fragility = 0;

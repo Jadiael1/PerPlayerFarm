@@ -51,5 +51,18 @@
     "derexsv.ppf.log.trace.registry_received": "[PPF] 農場レジストリを受信しました ({{count}})。",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] 郵便受けビューの準備に失敗しました: {{error}}。",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] 手動で配置したミニオベリスク ({{location}}) にテレポートタグを付与しました。",
-    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged に失敗しました: {{error}}。"
+    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged に失敗しました: {{error}}。",
+    "derexsv.ppf.bigcraftable.teleporter.name": "PPFテレポーター",
+    "derexsv.ppf.bigcraftable.teleporter.description": "旅行メニューからPPF_*とメイン農場の間をテレポートします。",
+    "derexsv.ppf.travelmenu.error.cannot_travel": "今は移動できません。",
+    "derexsv.ppf.travelmenu.info.syncing": "農場を同期しています...",
+    "derexsv.ppf.travelmenu.info.none": "利用できる農場がありません。",
+    "derexsv.ppf.travelmenu.label.online": "{{name}}（オンライン）",
+    "derexsv.ppf.travelmenu.label.offline": "{{name}}（オフライン）",
+    "derexsv.ppf.travelmenu.prev_page": "← 前のページ",
+    "derexsv.ppf.travelmenu.next_page": "次のページ →",
+    "derexsv.ppf.travelmenu.prompt.choose_farm": "訪問したい農場を選択してください:",
+    "derexsv.ppf.command.ensure_teleports.description": "PPFテレポーターを保証します。\n使用方法: ppf.ensure-teleports all|here|farm|ppf|<LocationName>\n  all  = すべてのPPF_*とメイン農場\n  here = 現在のロケーションのみ\n  farm = メイン農場のみ\n  ppf  = すべてのPPF_*のみ\n  <LocationName> = 正確なロケーション名",
+    "derexsv.ppf.command.clean.description": "残骸/草/木/資源を掃除します (PPF Clean Helper)。\n使用方法: ppf.clean here|all|ppf",
+    "derexsv.ppf.command.strip.description": "PPF_*内のバニラ建物を削除します（Farmhouseは常に、Greenhouseは壊れている場合）。\n使用方法: ppf.strip here|all"
 }

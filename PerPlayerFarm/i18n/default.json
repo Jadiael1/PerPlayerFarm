@@ -51,5 +51,18 @@
     "derexsv.ppf.log.trace.registry_received": "[PPF] Farm registration received ({{count}}).",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] Failed to prepare mailbox view: {{error}}.",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] Mini-Obelisk placed manually in {{location}} was tagged for teleport.",
-    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged failed: {{error}}."
+    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged failed: {{error}}.",
+    "derexsv.ppf.bigcraftable.teleporter.name": "PPF Teleporter",
+    "derexsv.ppf.bigcraftable.teleporter.description": "Teleports between PPF_* and the main Farm via the travel menu.",
+    "derexsv.ppf.travelmenu.error.cannot_travel": "You can't travel now.",
+    "derexsv.ppf.travelmenu.info.syncing": "Synchronizing farms...",
+    "derexsv.ppf.travelmenu.info.none": "No farms available.",
+    "derexsv.ppf.travelmenu.label.online": "{{name}} (online)",
+    "derexsv.ppf.travelmenu.label.offline": "{{name}} (offline)",
+    "derexsv.ppf.travelmenu.prev_page": "\u2190 Previous page",
+    "derexsv.ppf.travelmenu.next_page": "Next page \u2192",
+    "derexsv.ppf.travelmenu.prompt.choose_farm": "Choose the farm you want to visit:",
+    "derexsv.ppf.command.ensure_teleports.description": "Secures PPF teleporters.\nUse: ppf.ensure-teleports all|here|farm|ppf|<LocationName>\n  all  = all PPF_* and Farm\n  here = only in the current location\n  farm = only on the main Farm\n  ppf  = only in PPF_* (all)\n  <LocationName> = exact name of a location",
+    "derexsv.ppf.command.clean.description": "Cleans debris/grass/trees/farm resources (PPF Clean Helper).\nUse: ppf.clean here|all|ppf",
+    "derexsv.ppf.command.strip.description": "Removes vanilla buildings in PPF_* (Farmhouse always, Greenhouse if broken).\nUse: ppf.strip here|all"
 }

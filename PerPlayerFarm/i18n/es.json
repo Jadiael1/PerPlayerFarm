@@ -51,5 +51,18 @@
     "derexsv.ppf.log.trace.registry_received": "[PPF] Registro de granjas recibido ({{count}}).",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] Error al preparar la vista del buzón: {{error}}.",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] Mini-Obelisco colocado manualmente en {{location}} fue etiquetado para teletransporte.",
-    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged falló: {{error}}."
+    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged falló: {{error}}.",
+    "derexsv.ppf.bigcraftable.teleporter.name": "Teletransportador PPF",
+    "derexsv.ppf.bigcraftable.teleporter.description": "Teletransporta entre las PPF_* y la granja principal mediante el menú de viaje.",
+    "derexsv.ppf.travelmenu.error.cannot_travel": "Ahora no puedes viajar.",
+    "derexsv.ppf.travelmenu.info.syncing": "Sincronizando granjas...",
+    "derexsv.ppf.travelmenu.info.none": "No hay granjas disponibles.",
+    "derexsv.ppf.travelmenu.label.online": "{{name}} (en línea)",
+    "derexsv.ppf.travelmenu.label.offline": "{{name}} (sin conexión)",
+    "derexsv.ppf.travelmenu.prev_page": "← Página anterior",
+    "derexsv.ppf.travelmenu.next_page": "Página siguiente →",
+    "derexsv.ppf.travelmenu.prompt.choose_farm": "Elige la granja que deseas visitar:",
+    "derexsv.ppf.command.ensure_teleports.description": "Asegura los teletransportadores PPF.\nUso: ppf.ensure-teleports all|here|farm|ppf|<LocationName>\n  all  = todas las PPF_* y la granja principal\n  here = solo en la ubicación actual\n  farm = solo en la granja principal\n  ppf  = solo en todas las PPF_*\n  <LocationName> = nombre exacto de la ubicación",
+    "derexsv.ppf.command.clean.description": "Limpia restos/grama/árboles/recursos (PPF Clean Helper).\nUso: ppf.clean here|all|ppf",
+    "derexsv.ppf.command.strip.description": "Elimina construcciones vanilla en PPF_* (siempre Farmhouse, Greenhouse si está rota).\nUso: ppf.strip here|all"
 }

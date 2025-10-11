@@ -51,5 +51,18 @@
     "derexsv.ppf.log.trace.registry_received": "[PPF] Получен реестр ферм ({{count}}).",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] Не удалось подготовить отображение почтового ящика: {{error}}.",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] Ручной мини-обелиск в {{location}} помечен для телепорта.",
-    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] Не удалось выполнить OnObjectListChanged: {{error}}."
+    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] Не удалось выполнить OnObjectListChanged: {{error}}.",
+    "derexsv.ppf.bigcraftable.teleporter.name": "Телепортер PPF",
+    "derexsv.ppf.bigcraftable.teleporter.description": "Телепортирует между PPF_* и основной фермой через меню путешествий.",
+    "derexsv.ppf.travelmenu.error.cannot_travel": "Сейчас нельзя путешествовать.",
+    "derexsv.ppf.travelmenu.info.syncing": "Синхронизация ферм...",
+    "derexsv.ppf.travelmenu.info.none": "Нет доступных ферм.",
+    "derexsv.ppf.travelmenu.label.online": "{{name}} (в сети)",
+    "derexsv.ppf.travelmenu.label.offline": "{{name}} (не в сети)",
+    "derexsv.ppf.travelmenu.prev_page": "← Предыдущая страница",
+    "derexsv.ppf.travelmenu.next_page": "Следующая страница →",
+    "derexsv.ppf.travelmenu.prompt.choose_farm": "Выберите ферму, которую хотите посетить:",
+    "derexsv.ppf.command.ensure_teleports.description": "Гарантирует телепортеры PPF.\nИспользование: ppf.ensure-teleports all|here|farm|ppf|<LocationName>\n  all  = все PPF_* и основная ферма\n  here = только в текущей локации\n  farm = только на основной ферме\n  ppf  = только во всех PPF_*\n  <LocationName> = точное название локации",
+    "derexsv.ppf.command.clean.description": "Очищает мусор/траву/деревья/ресурсы (PPF Clean Helper).\nИспользование: ppf.clean here|all|ppf",
+    "derexsv.ppf.command.strip.description": "Удаляет ванильные здания в PPF_* (Farmhouse всегда, Greenhouse если сломана).\nИспользование: ppf.strip here|all"
 }

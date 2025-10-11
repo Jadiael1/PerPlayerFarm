@@ -1,0 +1,44 @@
+[center][size=6][color=#4caf50][b]Per Player Farm (PPF)[/b][/color][/size][/center]
+[center][size=4]Transforme cada convidado em proprietário de uma Fazenda completa – sem sacrificar a experiência vanilla.[/size][/center]
+
+[hr]
+[b]Por que instalar agora?[/b]
+[list]
+[*][b]Fazendas exclusivas por jogador:[/b] o PPF cria locations reais `PPF_<UID>` limpas e prontas para construir, preservando a Fazenda principal para encontros coletivos.
+[*][b]Fachada inteligente:[/b] cada PPF ganha uma Log Cabin personalizada; a porta teleporta o dono para sua cabana vanilla e o correio reproduz as animações originais de carta.
+[*][b]Teleporter dedicado:[/b] o `(BC)DerexSV.PPF_Teleporter` aparece na Fazenda principal e em todas as PPFs, exibindo disponibilidade, status online e permitindo viagens com um clique.
+[*][b]Warps sincronizados:[/b] Bus Stop, Forest, Backwoods e demais entradas redirecionam cada jogador para sua própria PPF, mantendo o acesso à Fazenda principal quando desejado.
+[*][b]Eventos idempotentes:[/b] toda ação (criar, limpar, retagar) pode ser repetida sem duplicar itens ou quebrar saves – perfeito para packs de mods longos.
+[/list]
+
+[b]Comandos SMAPI para hosts exigentes[/b]
+[code]ppf.ensure-teleports all|here|farm|ppf|<Location>[/code] – garante o teleporter onde precisar.  
+[code]ppf.clean here|all|ppf[/code] – limpa lixo leve e resource clumps de forma segura.  
+[code]ppf.strip here|all[/code] – remove Farmhouse e Greenhouse quebrada das PPFs e atualiza warps.
+
+[b]Configuração flexível[/b]
+[list]
+[*]Ajuste `Teleporter.PreferredTileX/Y` no `config.json` para posicionar o teleporter onde quiser (fallback automático se o tile estiver ocupado).
+[*]Troque sprites do teleporter via `Data/BigCraftables` sem mexer em código.
+[*]Idempotência total: a limpeza inicial é registrada; repetir processos não causa duplicatas.
+[/list]
+
+[b]Compatibilidade & qualidade técnica[/b]
+[list]
+[*]Projetado para Stardew Valley 1.6.15 / SMAPI 4.3.2 / .NET 6.
+[*]Uso robusto de `AssetRequested` com prioridades para coexistir com mods de mapa.
+[*]Funciona com split-screen, reconexões e servidores persistentes – o host mantém controle absoluto.
+[/list]
+
+[b]FAQ rápido[/b]
+[list]
+[*][i]“E se o mod for desativado?”[/i] Sua cabana vanilla permanece na Fazenda principal; nenhum jogador fica sem cama ou ponto de spawn.
+[*][i]“Posso usar em saves antigos?”[/i] Sim. O PPF converte apenas o necessário e grava o estado em `ppf.locations`.
+[*][i]“Isso afeta mods de automação/maquinário?”[/i] Não. As PPFs são farms legítimas, compatíveis com vanilla e automatizadores populares.
+[/list]
+
+[center][b]Pronto para fazer coop sem disputar espaço?[/b][/center]
+[center]Instale, chame seus amigos, distribua as PPFs e construa visuais grandiosos sem transformar a Fazenda principal em zona de guerra.[/center]
+
+[hr]
+[center][color=#ff9800][b]Curtiu o mod? Considere apoiar: [url=https://jadiael.dev/donate]https://jadiael.dev/donate[/url][/b][/color][/center]

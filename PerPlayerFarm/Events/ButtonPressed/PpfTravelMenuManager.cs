@@ -98,7 +98,7 @@ namespace PerPlayerFarm.Events.ButtonPressed
 
             if (Game1.eventUp || Game1.CurrentEvent != null)
             {
-                Game1.showRedMessage("You can't travel now.");
+                Game1.showRedMessage(_translate.Get("derexsv.ppf.travelmenu.error.cannot_travel"));
                 return true;
             }
 
@@ -118,14 +118,14 @@ namespace PerPlayerFarm.Events.ButtonPressed
             if (!Context.IsMainPlayer && farms.Count == 0)
             {
                 RequestRegistryFromHost();
-                Game1.showRedMessage("Synchronizing farms...");
+                Game1.showRedMessage(_translate.Get("derexsv.ppf.travelmenu.info.syncing"));
                 return;
             }
 
             farms = farms.Where(f => f.Available).ToList();
             if (farms.Count == 0)
             {
-                Game1.showRedMessage("No farms available.");
+                Game1.showRedMessage(_translate.Get("derexsv.ppf.travelmenu.info.none"));
                 return;
             }
 
@@ -140,7 +140,11 @@ namespace PerPlayerFarm.Events.ButtonPressed
             {
                 string label = entry.DisplayName;
                 if (entry.OwnerId != 0)
-                    label += entry.OwnerOnline ? " (online)" : " (offline)";
+                {
+                    label = entry.OwnerOnline
+                        ? _translate.Get("derexsv.ppf.travelmenu.label.online", new { name = entry.DisplayName })
+                        : _translate.Get("derexsv.ppf.travelmenu.label.offline", new { name = entry.DisplayName });
+                }
 
                 responses.Add(new Response(entry.InternalName, label));
             }
@@ -148,12 +152,12 @@ namespace PerPlayerFarm.Events.ButtonPressed
             if (totalPages > 1)
             {
                 if (page > 0)
-                    responses.Add(new Response("__ppf_prev", "← Previous page"));
+                    responses.Add(new Response("__ppf_prev", _translate.Get("derexsv.ppf.travelmenu.prev_page")));
                 if (page < totalPages - 1)
-                    responses.Add(new Response("__ppf_next", "Next page →"));
+                    responses.Add(new Response("__ppf_next", _translate.Get("derexsv.ppf.travelmenu.next_page")));
             }
 
-            string prompt = "Choose the farm you want to visit:";
+            string prompt = _translate.Get("derexsv.ppf.travelmenu.prompt.choose_farm");
             Game1.playSound("smallSelect");
             Game1.currentLocation?.createQuestionDialogue(prompt, responses.ToArray(), (Farmer _, string answer) =>
             {
@@ -183,7 +187,7 @@ namespace PerPlayerFarm.Events.ButtonPressed
         {
             if (Game1.eventUp || Game1.CurrentEvent != null)
             {
-                Game1.showRedMessage("You can't travel now.");
+                Game1.showRedMessage(_translate.Get("derexsv.ppf.travelmenu.error.cannot_travel"));
                 return;
             }
 

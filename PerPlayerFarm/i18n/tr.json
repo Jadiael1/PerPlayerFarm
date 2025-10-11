@@ -51,5 +51,18 @@
     "derexsv.ppf.log.trace.registry_received": "[PPF] Çiftlik kaydı alındı ({{count}}).",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] Posta kutusu görünümü hazırlanamadı: {{error}}.",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] {{location}} konumunda elle yerleştirilen mini obelisk teleporte etiketlendi.",
-    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged başarısız oldu: {{error}}."
+    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged başarısız oldu: {{error}}.",
+    "derexsv.ppf.bigcraftable.teleporter.name": "PPF Işınlayıcı",
+    "derexsv.ppf.bigcraftable.teleporter.description": "Seyahat menüsünden PPF_* ile ana Çiftlik arasında ışınlar.",
+    "derexsv.ppf.travelmenu.error.cannot_travel": "Şu anda seyahat edemezsin.",
+    "derexsv.ppf.travelmenu.info.syncing": "Çiftlikler eşitleniyor...",
+    "derexsv.ppf.travelmenu.info.none": "Kullanılabilir çiftlik yok.",
+    "derexsv.ppf.travelmenu.label.online": "{{name}} (çevrimiçi)",
+    "derexsv.ppf.travelmenu.label.offline": "{{name}} (çevrimdışı)",
+    "derexsv.ppf.travelmenu.prev_page": "← Önceki sayfa",
+    "derexsv.ppf.travelmenu.next_page": "Sonraki sayfa →",
+    "derexsv.ppf.travelmenu.prompt.choose_farm": "Ziyaret etmek istediğin çiftliği seç:",
+    "derexsv.ppf.command.ensure_teleports.description": "PPF ışınlayıcılarını güvenceye alır.\nKullanım: ppf.ensure-teleports all|here|farm|ppf|<LocationName>\n  all  = tüm PPF_* ve ana Çiftlik\n  here = yalnızca mevcut konumda\n  farm = yalnızca ana Çiftlikte\n  ppf  = yalnızca tüm PPF_* üzerinde\n  <LocationName> = konumun tam adı",
+    "derexsv.ppf.command.clean.description": "Enkaz/çimen/ağaç/kaynakları temizler (PPF Clean Helper).\nKullanım: ppf.clean here|all|ppf",
+    "derexsv.ppf.command.strip.description": "PPF_* içindeki vanilla yapıları kaldırır (Farmhouse her zaman, Greenhouse kırık ise).\nKullanım: ppf.strip here|all"
 }

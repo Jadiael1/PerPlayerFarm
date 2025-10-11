@@ -51,5 +51,18 @@
     "derexsv.ppf.log.trace.registry_received": "[PPF] 已接收农场注册信息（{{count}}）。",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] 准备邮箱视图失败：{{error}}。",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] 手动放置在 {{location}} 的迷你方尖碑已标记为传送。",
-    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged 失败：{{error}}。"
+    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged 失败：{{error}}。",
+    "derexsv.ppf.bigcraftable.teleporter.name": "PPF 传送器",
+    "derexsv.ppf.bigcraftable.teleporter.description": "通过旅行菜单在 PPF_* 与主农场之间传送。",
+    "derexsv.ppf.travelmenu.error.cannot_travel": "现在无法旅行。",
+    "derexsv.ppf.travelmenu.info.syncing": "正在同步农场...",
+    "derexsv.ppf.travelmenu.info.none": "没有可用的农场。",
+    "derexsv.ppf.travelmenu.label.online": "{{name}}（在线）",
+    "derexsv.ppf.travelmenu.label.offline": "{{name}}（离线）",
+    "derexsv.ppf.travelmenu.prev_page": "← 上一页",
+    "derexsv.ppf.travelmenu.next_page": "下一页 →",
+    "derexsv.ppf.travelmenu.prompt.choose_farm": "请选择要前往的农场：",
+    "derexsv.ppf.command.ensure_teleports.description": "保障 PPF 传送器处于可用状态。\n用法：ppf.ensure-teleports all|here|farm|ppf|<LocationName>\n  all  = 所有 PPF_* 和主农场\n  here = 仅当前所在地\n  farm = 仅主农场\n  ppf  = 仅所有 PPF_*\n  <LocationName> = 位置的准确名称",
+    "derexsv.ppf.command.clean.description": "清理杂物/草/树木/资源 (PPF Clean Helper)。\n用法：ppf.clean here|all|ppf",
+    "derexsv.ppf.command.strip.description": "移除 PPF_* 中的原版建筑（Farmhouse 始终移除，Greenhouse 仅在破损时移除）。\n用法：ppf.strip here|all"
 }

@@ -51,5 +51,18 @@
     "derexsv.ppf.log.trace.registry_received": "[PPF] Registro delle fattorie ricevuto ({{count}}).",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] Preparazione della vista della cassetta postale fallita: {{error}}.",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] Mini obelisco posizionato manualmente in {{location}} etichettato per il teletrasporto.",
-    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged non riuscito: {{error}}."
+    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged non riuscito: {{error}}.",
+    "derexsv.ppf.bigcraftable.teleporter.name": "Teletrasportatore PPF",
+    "derexsv.ppf.bigcraftable.teleporter.description": "Teletrasporta tra le PPF_* e la Fattoria principale tramite il menu di viaggio.",
+    "derexsv.ppf.travelmenu.error.cannot_travel": "Ora non puoi viaggiare.",
+    "derexsv.ppf.travelmenu.info.syncing": "Sincronizzazione delle fattorie...",
+    "derexsv.ppf.travelmenu.info.none": "Nessuna fattoria disponibile.",
+    "derexsv.ppf.travelmenu.label.online": "{{name}} (online)",
+    "derexsv.ppf.travelmenu.label.offline": "{{name}} (offline)",
+    "derexsv.ppf.travelmenu.prev_page": "← Pagina precedente",
+    "derexsv.ppf.travelmenu.next_page": "Pagina successiva →",
+    "derexsv.ppf.travelmenu.prompt.choose_farm": "Scegli la fattoria che vuoi visitare:",
+    "derexsv.ppf.command.ensure_teleports.description": "Garantisce i teletrasportatori PPF.\nUso: ppf.ensure-teleports all|here|farm|ppf|<LocationName>\n  all  = tutte le PPF_* e la Fattoria principale\n  here = solo nella posizione attuale\n  farm = solo nella Fattoria principale\n  ppf  = solo in tutte le PPF_*\n  <LocationName> = nome esatto della location",
+    "derexsv.ppf.command.clean.description": "Pulisce detriti/erba/alberi/risorse (PPF Clean Helper).\nUso: ppf.clean here|all|ppf",
+    "derexsv.ppf.command.strip.description": "Rimuove edifici vanilla nelle PPF_* (sempre la Farmhouse, la Greenhouse se è rotta).\nUso: ppf.strip here|all"
 }

@@ -51,5 +51,18 @@
     "derexsv.ppf.log.trace.registry_received": "[PPF] 농장 레지스트리를 수신했습니다 ({{count}}).",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] 우편함 보기 준비 실패: {{error}}.",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] {{location}}에 수동으로 배치된 미니 오벨리스크에 텔레포트 태그를 지정했습니다.",
-    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged 실패: {{error}}."
+    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged 실패: {{error}}.",
+    "derexsv.ppf.bigcraftable.teleporter.name": "PPF 텔레포터",
+    "derexsv.ppf.bigcraftable.teleporter.description": "여행 메뉴를 통해 PPF_*와 메인 농장 사이를 이동합니다.",
+    "derexsv.ppf.travelmenu.error.cannot_travel": "지금은 이동할 수 없습니다.",
+    "derexsv.ppf.travelmenu.info.syncing": "농장을 동기화하는 중...",
+    "derexsv.ppf.travelmenu.info.none": "사용 가능한 농장이 없습니다.",
+    "derexsv.ppf.travelmenu.label.online": "{{name}} (온라인)",
+    "derexsv.ppf.travelmenu.label.offline": "{{name}} (오프라인)",
+    "derexsv.ppf.travelmenu.prev_page": "← 이전 페이지",
+    "derexsv.ppf.travelmenu.next_page": "다음 페이지 →",
+    "derexsv.ppf.travelmenu.prompt.choose_farm": "방문할 농장을 선택하세요:",
+    "derexsv.ppf.command.ensure_teleports.description": "PPF 텔레포터를 보장합니다.\n사용법: ppf.ensure-teleports all|here|farm|ppf|<LocationName>\n  all  = 모든 PPF_*와 메인 농장\n  here = 현재 위치에서만\n  farm = 메인 농장에서만\n  ppf  = 모든 PPF_*에서만\n  <LocationName> = 위치의 정확한 이름",
+    "derexsv.ppf.command.clean.description": "잔해/잔디/나무/자원을 정리합니다 (PPF Clean Helper).\n사용법: ppf.clean here|all|ppf",
+    "derexsv.ppf.command.strip.description": "PPF_*의 바닐라 건물을 제거합니다 (Farmhouse는 항상, Greenhouse는 고장났을 때).\n사용법: ppf.strip here|all"
 }

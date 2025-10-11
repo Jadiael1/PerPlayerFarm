@@ -51,5 +51,18 @@
     "derexsv.ppf.log.trace.registry_received": "[PPF] Farmnyilvántartás fogadva ({{count}}).",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] A postaláda nézetének előkészítése sikertelen: {{error}}.",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] Kézzel elhelyezett mini obeliszk itt: {{location}} teleport címkét kapott.",
-    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged sikertelen: {{error}}."
+    "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged sikertelen: {{error}}.",
+    "derexsv.ppf.bigcraftable.teleporter.name": "PPF teleportáló",
+    "derexsv.ppf.bigcraftable.teleporter.description": "Teleportál a PPF_* farmok és a fő Farm között az utazási menüből.",
+    "derexsv.ppf.travelmenu.error.cannot_travel": "Most nem utazhatsz.",
+    "derexsv.ppf.travelmenu.info.syncing": "Farmok szinkronizálása...",
+    "derexsv.ppf.travelmenu.info.none": "Nincs elérhető farm.",
+    "derexsv.ppf.travelmenu.label.online": "{{name}} (online)",
+    "derexsv.ppf.travelmenu.label.offline": "{{name}} (offline)",
+    "derexsv.ppf.travelmenu.prev_page": "← Előző oldal",
+    "derexsv.ppf.travelmenu.next_page": "Következő oldal →",
+    "derexsv.ppf.travelmenu.prompt.choose_farm": "Válaszd ki, melyik farmra szeretnél menni:",
+    "derexsv.ppf.command.ensure_teleports.description": "Biztosítja a PPF teleportálókat.\nHasználat: ppf.ensure-teleports all|here|farm|ppf|<LocationName>\n  all  = minden PPF_* és a fő Farm\n  here = csak az aktuális helyen\n  farm = csak a fő Farmon\n  ppf  = csak az összes PPF_*-ben\n  <LocationName> = a hely pontos neve",
+    "derexsv.ppf.command.clean.description": "Eltávolítja a törmeléket/fűvet/fákat/erőforrásokat (PPF Clean Helper).\nHasználat: ppf.clean here|all|ppf",
+    "derexsv.ppf.command.strip.description": "Eltávolítja a vanilla épületeket a PPF_* farmokról (Farmhouse mindig, Greenhouse ha törött).\nHasználat: ppf.strip here|all"
 }
