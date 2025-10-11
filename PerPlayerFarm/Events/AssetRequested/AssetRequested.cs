@@ -20,7 +20,7 @@ namespace PerPlayerFarm.Events.AssetRequested
 
         private void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
         {
-            PpfTeleporter.AddIfNotExists(e);
+            PpfTeleporter.AddIfNotExists(e, _translate);
             MapFarm.WarpAdjustmentPropertyFarm(e);
             PpfLogCabin.AddIfNotExists(e);
             MapPpf.AddAndEdit(e, _helper, _monitor);
