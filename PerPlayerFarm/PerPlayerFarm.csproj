@@ -17,6 +17,9 @@
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
+    <IgnoreModFilePatterns>(^|[/\\])\.git($|[/\\])</IgnoreModFilePatterns>
+    <IgnoreModFilePatterns>(^|[/\\])\.git($|[/\\])|^\.vscode($|[/\\])|^\.idea($|[/\\])|^PerPlayerFarm($|[/\\])|^Docs($|[/\\])</IgnoreModFilePatterns>
+    <IgnoreModFilePaths>.gitignore, .gitattributes, .gitmodules, .editorconfig, PerPlayerFarm.sln, nuget.config, global.json</IgnoreModFilePaths>
   </PropertyGroup>
 
   <ItemGroup>
