@@ -1,6 +1,7 @@
 using PerPlayerFarm.Events.Peerconnected;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewValley;
 
 namespace PerPlayerFarm.Events.PeerConnected
 {
@@ -23,10 +24,14 @@ namespace PerPlayerFarm.Events.PeerConnected
             if (!Context.IsMainPlayer)
                 return;
 
-            Locations.LoadInvitedPpfFarmsForHost(e.Peer.PlayerID, _monitor, _translate);
-            Locations.LoadFacadeCabinInPpfOfInvitedForHost(e.Peer.PlayerID, _monitor, _translate);
-            Locations.TrackOwner(e.Peer.PlayerID, _monitor, _helper, _translate);
-            HouseWarpUtils.OverrideDefaultHouseWarpToPPF(e.Peer.PlayerID);
+            long uid = e.Peer.PlayerID;
+            var farmer = Game1.GetPlayer(uid);
+            string? displayName = farmer?.displayName;
+
+            Locations.LoadInvitedPpfFarmsForHost(uid, _monitor, _translate, displayName);
+            Locations.LoadFacadeCabinInPpfOfInvitedForHost(uid, _monitor, _translate);
+            Locations.TrackOwner(uid, _monitor, _helper, _translate);
+            HouseWarpUtils.OverrideDefaultHouseWarpToPPF(uid);
         }
     }
 }

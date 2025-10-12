@@ -45,8 +45,24 @@ namespace PerPlayerFarm.Events.Peerconnected
                 WriteSaveData(data, helper);
         }
 
+        private static bool AlreadyHasPpfFor(long uid)
+        {
+            string ownerKey = Utils.Constants.OwnerKey;
+            return Game1.locations
+                .OfType<StardewValley.Farm>()
+                .Any(loc =>
+                    loc.Name.StartsWith("PPF_") &&
+                    loc.modData.TryGetValue(ownerKey, out string? s) &&
+                    long.TryParse(s, out long saved) &&
+                    saved == uid
+                );
+        }
+
         public static void LoadInvitedPpfFarmsForHost(long uid, IMonitor monitor, ITranslationHelper translate, string? displayName = null)
         {
+            if (AlreadyHasPpfFor(uid))
+                return;
+        
             string locName = $"PPF_{uid}";
 
             if (Game1.getLocationFromName(locName) is null)
@@ -58,10 +74,14 @@ namespace PerPlayerFarm.Events.Peerconnected
                 };
                 loc.isAlwaysActive.Value = true;
                 loc.map.Properties["CanBuildHere"] = new PropertyValue("T");
-                if (loc.map?.Properties is not null && displayName is not null)
-                {
-                    loc.map.Properties["DisplayName"] = new PropertyValue(displayName);
-                }
+
+                string finalDisplay = !string.IsNullOrWhiteSpace(displayName)
+                    ? $"Farm · {displayName}"
+                    : $"Farm · {uid}";
+                loc.map.Properties["DisplayName"] = new PropertyValue(finalDisplay);
+
+                loc.modData[Utils.Constants.OwnerKey] = uid.ToString(CultureInfo.InvariantCulture);
+
                 Game1.locations.Add(loc);
                 monitor.Log($"{translate.Get("derexsv.ppf.log.notice.invited_ppf_farms_were_loaded_to_the_host", new { PPF = locName })}", LogLevel.Info);
             }
@@ -89,6 +109,6 @@ namespace PerPlayerFarm.Events.Peerconnected
             facade.modData[_facadeOwnerUid] = uid.ToString(CultureInfo.InvariantCulture);
             loc.buildings.Add(facade);
             monitor.Log($"{translate.Get("derexsv.ppf.log.notice.facade_cabin_were_loaded_into_the_invited_farms_at_the_host", new { PPF = locName })}", LogLevel.Info);
-        }        
+        }
     }
 }

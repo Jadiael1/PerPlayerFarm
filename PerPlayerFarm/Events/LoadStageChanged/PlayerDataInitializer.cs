@@ -39,7 +39,7 @@ namespace PerPlayerFarm.Events.LoadStageChanged
             foreach (var f in Game1.getAllFarmers())
             {
                 if (f.IsMainPlayer) continue;
-                Peerconnected.Locations.LoadInvitedPpfFarmsForHost(f.UniqueMultiplayerID, monitor, translate, $"Farm {f.displayName}");
+                Peerconnected.Locations.LoadInvitedPpfFarmsForHost(f.UniqueMultiplayerID, monitor, translate, f.displayName);
                 Peerconnected.Locations.LoadFacadeCabinInPpfOfInvitedForHost(f.UniqueMultiplayerID, monitor, translate);
                 Peerconnected.Locations.TrackOwner(f.UniqueMultiplayerID, monitor, helper, translate);
 

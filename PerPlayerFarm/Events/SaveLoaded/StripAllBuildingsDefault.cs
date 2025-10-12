@@ -68,6 +68,20 @@ namespace PerPlayerFarm.Events.SaveLoaded
             => (loc.NameOrUniqueName ?? loc.Name ?? string.Empty)
                .StartsWith("PPF_", StringComparison.OrdinalIgnoreCase);
 
+        private static void StripVanillaCabinsFromPpf(Farm farm)
+        {
+            int removed = 0;
+            for (int i = farm.buildings.Count - 1; i >= 0; --i)
+            {
+                var b = farm.buildings[i];
+                if (string.Equals(b.buildingType.Value, "Cabin", StringComparison.Ordinal))
+                {
+                    farm.buildings.RemoveAt(i);
+                    removed++;
+                }
+            }
+        }
+
         public static void Strip(IMonitor monitor, ITranslationHelper translate)
         {
             if (!Context.IsWorldReady || !Context.IsMainPlayer)
@@ -76,7 +90,10 @@ namespace PerPlayerFarm.Events.SaveLoaded
             foreach (var loc in Game1.locations)
             {
                 if (loc is Farm farm && IsPpf(farm))
+                {
                     StripInFarm(farm, monitor, translate);
+                    StripVanillaCabinsFromPpf(farm);
+                }
             }
         }
     }
