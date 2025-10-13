@@ -9,16 +9,17 @@ namespace PerPlayerFarm.Events.DayStarted
 
         private static readonly string _cleanKey = Utils.Constants.CleanKey;
 
-        public static void ClearPpfIfFirstInit(IMonitor monitor, ITranslationHelper translate)
+        public static void ClearPpfIfFirstInit(IModHelper helper, IMonitor monitor, ITranslationHelper translate)
         {
-            IEnumerable<Farmer>? farmers = Game1.getAllFarmers();
-            if (farmers is not null)
+            var eligible = Utils.EligibleFarmers.Get(helper);
+
+            if (eligible is not null)
             {
-                foreach (Farmer? farmer in farmers)
+                foreach (long uid in eligible)
                 {
+                    var farmer = Game1.GetPlayer(uid);
                     if (farmer is not null && !farmer.IsMainPlayer)
                     {
-                        var uid = farmer.UniqueMultiplayerID;
                         string locName = $"PPF_{uid}";
                         var loc = Game1.getLocationFromName(locName);
                         if (loc is null)

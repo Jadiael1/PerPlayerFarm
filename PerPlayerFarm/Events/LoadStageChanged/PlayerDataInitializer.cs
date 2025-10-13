@@ -40,25 +40,10 @@ namespace PerPlayerFarm.Events.LoadStageChanged
         {
             Types.PpfSaveData data = Peerconnected.Locations.ReadSaveData(helper, monitor, translate);
 
-            var eligible = new HashSet<long>();
-
-            foreach (var peer in helper.Multiplayer.GetConnectedPlayers())
-                eligible.Add(peer.PlayerID);
-
-            var farm = Game1.getFarm();
-
-            if (farm != null)
+            var eligible = Utils.EligibleFarmers.Get(helper);
+            if (eligible is null)
             {
-                foreach (var building in farm.buildings)
-                {
-                    var indoors = building?.indoors.Value;
-                    if (indoors is FarmHouse house)
-                    {
-                        var owner = house.owner;
-                        if (owner is not null && !owner.IsMainPlayer)
-                            eligible.Add(owner.UniqueMultiplayerID);
-                    }
-                }
+                return;
             }
 
             if (data.OwnerUids.Count > 0)
