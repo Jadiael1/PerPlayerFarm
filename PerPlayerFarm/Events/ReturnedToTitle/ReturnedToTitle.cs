@@ -26,6 +26,7 @@ namespace PerPlayerFarm.Events.ReturnedToTitle
         {
             _clientRegistry.Clear();
             _clientStubs.Clear();
+            Peerconnected.Locations.ResetCache();
         }
     }
 }

@@ -22,6 +22,10 @@ namespace PerPlayerFarm.Events.SaveLoaded
         {
             Locations.LoadPpfFarmsForInvited(_monitor, _translate);
             StripAllBuildingsDefault.Strip(_monitor, _translate);
+            if (Context.IsMainPlayer)
+            {
+                LoadStageChanged.PlayerDataInitializer.EnsurePerPlayerFarmsFromKnownFarmers(_helper, _monitor, _translate);
+            }
         }
     }
 }

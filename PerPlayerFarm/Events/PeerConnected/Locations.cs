@@ -38,6 +38,11 @@ namespace PerPlayerFarm.Events.Peerconnected
             helper.Data.WriteSaveData(_saveKey, data);
         }
 
+        public static void ResetCache()
+        {
+            _cache = null;
+        }
+
         public static void TrackOwner(long uid, IMonitor monitor, IModHelper helper, ITranslationHelper translate)
         {
             var data = ReadSaveData(helper, monitor, translate);
