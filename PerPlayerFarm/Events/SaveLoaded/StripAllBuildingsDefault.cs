@@ -23,7 +23,7 @@ namespace PerPlayerFarm.Events.SaveLoaded
             int removedHouse = 0;
             int removedGh = 0;
 
-            // 1) remove SEMPRE a Farmhouse
+            // 1) always remove the Farmhouse
             for (int i = farm.buildings.Count - 1; i >= 0; i--)
             {
                 var b = farm.buildings[i];

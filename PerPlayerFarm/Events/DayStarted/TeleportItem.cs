@@ -39,7 +39,7 @@ namespace PerPlayerFarm.Events.DayStarted
         private static bool IsGood(GameLocation l, Vector2 p)
         {
             if (!l.isTileOnMap(p)) return false;
-            if (!l.CanItemBePlacedHere(p)) return false; // regra oficial
+            if (!l.CanItemBePlacedHere(p)) return false; // follows vanilla placement rule
             if (l.isWaterTile((int)p.X, (int)p.Y)) return false;
             if (l.objects.ContainsKey(p)) return false;
             if (l.isObjectAtTile((int)p.X, (int)p.Y)) return false;

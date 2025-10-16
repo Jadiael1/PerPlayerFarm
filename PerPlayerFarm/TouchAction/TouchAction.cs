@@ -42,26 +42,26 @@ namespace PerPlayerFarm.TouchAction
                 if (location == null || player == null)
                     return false;
 
-                // encontre a fachada cujo "humanDoor" esteja exatamente neste tile
+                // find the facade whose humanDoor aligns with this tile
                 foreach (var building in location.buildings)
                 {
                     if (building?.buildingType?.Value != Utils.Constants.FacadeBuildingId)
                         continue;
 
-                    // confirma o dono da fachada
+                    // confirm facade owner
                     if (!Events.ButtonPressed.PpfBuildingHelper.TryGetOwnerUid(building, location, out long ownerUid))
                         continue;
 
-                    // tile da porta desta fachada
+                    // compute this facade door tile
                     var door = building.humanDoor.Value;
                     int doorX = building.tileX.Value + door.X;
                     int doorY = building.tileY.Value + door.Y;
 
-                    // só reage se estivermos na porta desta fachada
+                    // only react when we're at this facade door
                     if (tile.X != doorX || tile.Y != doorY)
                         continue;
 
-                    // --- casa do DONO ---
+                    // --- owner's house ---
                     Farmer? owner = Game1.GetPlayer(ownerUid);
                     if (owner is null)
                         return false;
@@ -83,7 +83,7 @@ namespace PerPlayerFarm.TouchAction
                     if (entry.X < 0 || entry.Y < 0)
                         entry = new Microsoft.Xna.Framework.Point(1, 1);
 
-                    // warp o jogador QUE CLICOU para a casa do DONO
+                    // warp the interacting player to the owner's house
                     var src = player.TilePoint;
                     var w = new StardewValley.Warp(src.X, src.Y, ownerHomeName, entry.X, entry.Y, flipFarmer: false);
                     player.warpFarmer(w, player.FacingDirection);
