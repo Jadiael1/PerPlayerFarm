@@ -183,7 +183,7 @@ Essa arquitetura mantém a compatibilidade com o jogo base, reduz impacto se o m
   * `ReturnedToTitle`: limpa caches de cliente ao voltar para o menu principal.
   * `SaveLoaded/*`: carrega a PPF do convidado (cliente) e faz strip de construções vanilla nas PPF_* do host.
   * `Saving`: persiste `ppf.locations` com os UIDs conhecidos.
-  * `UpdateTicked`: substitui warps do mapa para levar cada jogador à sua PPF correspondente.
+  * `TouchAction`: processa os touch actions personalizados para levar cada jogador à sua `PPF_*`.
 * **Utils/**
 
   * `Constants`: chaves/modData compartilhadas pelo mod.
@@ -215,7 +215,7 @@ Alguns utilitários aparecem em diversos fluxos. Ao alterá-los, verifique todos
 * `SaveLoaded.Locations.LoadPpfFarmsForInvited` (`Events/SaveLoaded`, `Events/DayStarted`): carrega a PPF “shadow” para clientes reconectarem-se.
 * `StripAllBuildingsDefault.Strip` (`Events/SaveLoaded`, `Events/DayStarted`): remove continuamente construções vanilla em PPF_*.
 * `PlayerDataInitializer.CleanLocation` (`Events/DayStarted`, `Utils/PpfConsoleCommands`): limpeza inicial reutilizada pelo comando `ppf.clean`.
-* `ListHelper.ConvertStringForList` (`Events/AssetRequested/FarmEntries`, `Events/UpdateTicked`): desserializa warps injetados no mapa.
+* `ListHelper.ConvertStringForList` (`Events/AssetRequested/FarmEntries`, `Events/TouchAction`): desserializa warps injetados no mapa.
 * `PpfBuildingHelper.TryGetOwnerUid` / `GetMailboxTile` (`Events/ButtonPressed`, `Events/RenderedWorld`): definem dono e tiles para interações e overlay.
 
 ---

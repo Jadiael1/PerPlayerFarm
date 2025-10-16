@@ -183,7 +183,7 @@ Stardew Valley изначально — одиночная игра; даже в
   * `ReturnedToTitle`: очищает кэши клиента при возврате в меню.
   * `SaveLoaded/*`: загружает PPF приглашённого (клиента) и удаляет ванильные постройки на PPF хоста.
   * `Saving`: сохраняет `ppf.locations` со списком UID.
-  * `UpdateTicked`: заменяет warp’ы карты, чтобы каждый игрок попадал в свою `PPF_*`.
+  * `TouchAction`: обрабатывает пользовательские touch action-варпы, чтобы каждый игрок попадал в свою `PPF_*`.
 * **Utils/**
 
   * `Constants`: общие ключи/ModData.
@@ -215,7 +215,7 @@ Stardew Valley изначально — одиночная игра; даже в
 * `SaveLoaded.Locations.LoadPpfFarmsForInvited` (`Events/SaveLoaded`, `Events/DayStarted`): подгружает “теневую” PPF для клиента.
 * `StripAllBuildingsDefault.Strip` (`Events/SaveLoaded`, `Events/DayStarted`): удаляет ванильные здания на PPF.
 * `PlayerDataInitializer.CleanLocation` (`Events/DayStarted`, `Utils/PpfConsoleCommands`): начальная очистка, также используется в команде `ppf.clean`.
-* `ListHelper.ConvertStringForList` (`Events/AssetRequested/FarmEntries`, `Events/UpdateTicked`): десериализация warp-строк.
+* `ListHelper.ConvertStringForList` (`Events/AssetRequested/FarmEntries`, `Events/TouchAction`): десериализация warp-строк.
 * `PpfBuildingHelper.TryGetOwnerUid` / `GetMailboxTile` (`Events/ButtonPressed`, `Events/RenderedWorld`): определяют владельца и ключевые тайлы для взаимодействия/отображения.
 
 ---

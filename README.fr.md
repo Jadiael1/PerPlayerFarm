@@ -183,7 +183,7 @@ Cette architecture reste compatible avec le jeu de base, évite les soucis si le
   * `ReturnedToTitle` : nettoie les caches client au retour au menu.
   * `SaveLoaded/*` : charge les PPF pour invités (client) et retire les bâtiments vanilla côté hôte.
   * `Saving` : persiste `ppf.locations` avec la liste UID ↔ PPF.
-  * `UpdateTicked` : remplace les warps pour que chaque joueur arrive sur sa `PPF_*`.
+  * `TouchAction` : gère les touch actions personnalisées pour que chaque joueur arrive sur sa `PPF_*`.
 * **Utils/**
 
   * `Constants` : clés/modData partagé(e)s.
@@ -215,7 +215,7 @@ Certains helpers interviennent à plusieurs endroits ; toute modification doit
 * `SaveLoaded.Locations.LoadPpfFarmsForInvited` (`Events/SaveLoaded`, `Events/DayStarted`) : charge la « PPF shadow » pour les clients.
 * `StripAllBuildingsDefault.Strip` (`Events/SaveLoaded`, `Events/DayStarted`) : retire continuellement les bâtiments vanilla des PPF.
 * `PlayerDataInitializer.CleanLocation` (`Events/DayStarted`, `Utils/PpfConsoleCommands`) : nettoyage initial (réutilisé par `ppf.clean`).
-* `ListHelper.ConvertStringForList` (`Events/AssetRequested/FarmEntries`, `Events/UpdateTicked`) : désérialise les warps injectés.
+* `ListHelper.ConvertStringForList` (`Events/AssetRequested/FarmEntries`, `Events/TouchAction`) : désérialise les warps injectés.
 * `PpfBuildingHelper.TryGetOwnerUid` / `GetMailboxTile` (`Events/ButtonPressed`, `Events/RenderedWorld`) : Identifie propriétaire et tiles nécessaires pour interaction/overlay.
 
 ---

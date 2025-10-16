@@ -183,7 +183,7 @@ Stardew Valley 는 원래 솔로 플레이에 맞춰져 있고, 멀티 플레이
   * `ReturnedToTitle`: 메인 메뉴 복귀 시 클라이언트 캐시 정리
   * `SaveLoaded/*`: 초대받은 플레이어용 PPF 로드 및 호스트 PPF 의 바닐라 건물 제거
   * `Saving`: `ppf.locations` 에 UID 목록 저장
-  * `UpdateTicked`: 플레이어가 자신만의 `PPF_*` 에 도착하도록 맵 워프 교체
+  * `TouchAction`: 커스텀 touch action 워프를 처리해 각 플레이어가 자신만의 `PPF_*` 에 도착하도록 함
 * **Utils/**
 
   * `Constants`: 공통 키/ModData
@@ -215,7 +215,7 @@ Stardew Valley 는 원래 솔로 플레이에 맞춰져 있고, 멀티 플레이
 * `SaveLoaded.Locations.LoadPpfFarmsForInvited` (`Events/SaveLoaded`, `Events/DayStarted`): 클라이언트용 “섀도우 PPF” 로드
 * `StripAllBuildingsDefault.Strip` (`Events/SaveLoaded`, `Events/DayStarted`): PPF 의 바닐라 건물 지속 제거
 * `PlayerDataInitializer.CleanLocation` (`Events/DayStarted`, `Utils/PpfConsoleCommands`): 초기 청소 로직, `ppf.clean` 명령에서도 사용
-* `ListHelper.ConvertStringForList` (`Events/AssetRequested/FarmEntries`, `Events/UpdateTicked`): 주입된 warp 문자열 역직렬화
+* `ListHelper.ConvertStringForList` (`Events/AssetRequested/FarmEntries`, `Events/TouchAction`): 주입된 warp 문자열 역직렬화
 * `PpfBuildingHelper.TryGetOwnerUid` / `GetMailboxTile` (`Events/ButtonPressed`, `Events/RenderedWorld`): 소유자 판별 및 인터랙션/오버레이 타일 계산
 
 ---

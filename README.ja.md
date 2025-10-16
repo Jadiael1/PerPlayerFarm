@@ -183,7 +183,7 @@ Stardew Valley は元々ソロ向けに作られ、マルチプレイでも標�
   * `ReturnedToTitle`：タイトルへ戻った際、クライアントキャッシュをクリア。
   * `SaveLoaded/*`：招待プレイヤー（クライアント）の PPF を読み込み、ホスト側 PPF からバニラ構造物を削除。
   * `Saving`：既知 UID を含む `ppf.locations` を保存。
-  * `UpdateTicked`：各プレイヤーが自分の `PPF_*` に着地するよう、マップの warp を置換。
+  * `TouchAction`：カスタム touch action ワープを処理し、各プレイヤーが自分の `PPF_*` に到達できるようにする。
 * **Utils/**
 
   * `Constants`：共有キー/ModData。
@@ -215,7 +215,7 @@ Stardew Valley は元々ソロ向けに作られ、マルチプレイでも標�
 * `SaveLoaded.Locations.LoadPpfFarmsForInvited`（`Events/SaveLoaded`, `Events/DayStarted`）：クライアント側 “シャドウ PPF” のロード。
 * `StripAllBuildingsDefault.Strip`（`Events/SaveLoaded`, `Events/DayStarted`）：PPF 上のバニラ建築を継続的に削除。
 * `PlayerDataInitializer.CleanLocation`（`Events/DayStarted`, `Utils/PpfConsoleCommands`）：初期清掃ロジック、`ppf.clean` からも再利用。
-* `ListHelper.ConvertStringForList`（`Events/AssetRequested/FarmEntries`, `Events/UpdateTicked`）：注入した warp 文字列のデシリアライズ。
+* `ListHelper.ConvertStringForList`（`Events/AssetRequested/FarmEntries`, `Events/TouchAction`）：注入した warp 文字列のデシリアライズ。
 * `PpfBuildingHelper.TryGetOwnerUid` / `GetMailboxTile`（`Events/ButtonPressed`, `Events/RenderedWorld`）：所有者判定とインタラクション／オーバーレイ用タイル計算。
 
 ---

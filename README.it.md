@@ -183,7 +183,7 @@ Questa architettura mantiene la compatibilità col gioco base, evita problemi se
   * `ReturnedToTitle`: pulisce le cache client al ritorno al menu principale.
   * `SaveLoaded/*`: carica la PPF dell’invitato (client) e rimuove costruzioni vanilla nelle PPF dell’host.
   * `Saving`: salva `ppf.locations` con gli UID conosciuti.
-  * `UpdateTicked`: sostituisce i warp perché ogni giocatore arrivi nella propria `PPF_*`.
+  * `TouchAction`: gestisce le touch actions personalizzate perché ogni giocatore arrivi nella propria `PPF_*`.
 * **Utils/**
 
   * `Constants`: chiavi/modData condivise.

@@ -183,7 +183,7 @@ Stardew Valley 最初是一款单人体验；即使在多人模式中，标准�
   * `ReturnedToTitle`：返回标题界面时清理客户端缓存。
   * `SaveLoaded/*`：加载客户端 PPF 并在主机端移除 PPF 内的原版建筑。
   * `Saving`：将 `ppf.locations` 与 UID 映射写入存档。
-  * `UpdateTicked`：替换地图 warp，确保每位玩家进入自己的 `PPF_*`。
+  * `TouchAction`：处理自定义 touch action warp，确保每位玩家进入自己的 `PPF_*`。
 * **Utils/**
 
   * `Constants`：共享常量与 modData 键名。
@@ -215,7 +215,7 @@ Stardew Valley 最初是一款单人体验；即使在多人模式中，标准�
 * `SaveLoaded.Locations.LoadPpfFarmsForInvited`（`Events/SaveLoaded`, `Events/DayStarted`）：为客户端加载 “shadow PPF”。
 * `StripAllBuildingsDefault.Strip`（`Events/SaveLoaded`, `Events/DayStarted`）：持续清除 PPF 内的原版建筑。
 * `PlayerDataInitializer.CleanLocation`（`Events/DayStarted`, `Utils/PpfConsoleCommands`）：初始清理逻辑，也在 `ppf.clean` 中复用。
-* `ListHelper.ConvertStringForList`（`Events/AssetRequested/FarmEntries`, `Events/UpdateTicked`）：反序列化注入的 warp 字符串。
+* `ListHelper.ConvertStringForList`（`Events/AssetRequested/FarmEntries`, `Events/TouchAction`）：反序列化注入的 warp 字符串。
 * `PpfBuildingHelper.TryGetOwnerUid` / `GetMailboxTile`（`Events/ButtonPressed`, `Events/RenderedWorld`）：计算所有者与交互/覆盖图的目标 tile。
 
 ---
