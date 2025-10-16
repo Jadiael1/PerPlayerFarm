@@ -50,6 +50,7 @@
     "derexsv.ppf.log.trace.client_shadow_created": "[PPF] (клиент) создана теневая локация: {{location}}.",
     "derexsv.ppf.log.trace.registry_received": "[PPF] Получен реестр ферм ({{count}}).",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] Не удалось подготовить отображение почтового ящика: {{error}}.",
+    "derexsv.ppf.log.warn.ppf_door_failed": "[PPF] Не удалось обработать PPF_Door: {{error}}.",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] Ручной мини-обелиск в {{location}} помечен для телепорта.",
     "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] Не удалось выполнить OnObjectListChanged: {{error}}.",
     "derexsv.ppf.bigcraftable.teleporter.name": "Телепортер PPF",

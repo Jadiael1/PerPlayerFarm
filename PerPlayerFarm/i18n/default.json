@@ -50,6 +50,7 @@
     "derexsv.ppf.log.trace.client_shadow_created": "[PPF] (client) shadow created: {{location}}.",
     "derexsv.ppf.log.trace.registry_received": "[PPF] Farm registration received ({{count}}).",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] Failed to prepare mailbox view: {{error}}.",
+    "derexsv.ppf.log.warn.ppf_door_failed": "[PPF] Failed to handle PPF_Door: {{error}}.",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] Mini-Obelisk placed manually in {{location}} was tagged for teleport.",
     "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged failed: {{error}}.",
     "derexsv.ppf.bigcraftable.teleporter.name": "PPF Teleporter",

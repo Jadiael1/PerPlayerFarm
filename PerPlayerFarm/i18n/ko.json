@@ -50,6 +50,7 @@
     "derexsv.ppf.log.trace.client_shadow_created": "[PPF] (클라이언트) 섀도우를 생성했습니다: {{location}}.",
     "derexsv.ppf.log.trace.registry_received": "[PPF] 농장 레지스트리를 수신했습니다 ({{count}}).",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] 우편함 보기 준비 실패: {{error}}.",
+    "derexsv.ppf.log.warn.ppf_door_failed": "[PPF] PPF_Door 처리에 실패했습니다: {{error}}.",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] {{location}}에 수동으로 배치된 미니 오벨리스크에 텔레포트 태그를 지정했습니다.",
     "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged 실패: {{error}}.",
     "derexsv.ppf.bigcraftable.teleporter.name": "PPF 텔레포터",

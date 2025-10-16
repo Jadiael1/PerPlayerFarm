@@ -50,6 +50,7 @@
     "derexsv.ppf.log.trace.client_shadow_created": "[PPF] (クライアント) シャドウを作成しました: {{location}}。",
     "derexsv.ppf.log.trace.registry_received": "[PPF] 農場レジストリを受信しました ({{count}})。",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] 郵便受けビューの準備に失敗しました: {{error}}。",
+    "derexsv.ppf.log.warn.ppf_door_failed": "[PPF] PPF_Door の処理に失敗しました: {{error}}。",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] 手動で配置したミニオベリスク ({{location}}) にテレポートタグを付与しました。",
     "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged に失敗しました: {{error}}。",
     "derexsv.ppf.bigcraftable.teleporter.name": "PPFテレポーター",

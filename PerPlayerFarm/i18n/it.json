@@ -50,6 +50,7 @@
     "derexsv.ppf.log.trace.client_shadow_created": "[PPF] (client) ombra creata: {{location}}.",
     "derexsv.ppf.log.trace.registry_received": "[PPF] Registro delle fattorie ricevuto ({{count}}).",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] Preparazione della vista della cassetta postale fallita: {{error}}.",
+    "derexsv.ppf.log.warn.ppf_door_failed": "[PPF] Impossibile gestire PPF_Door: {{error}}.",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] Mini obelisco posizionato manualmente in {{location}} etichettato per il teletrasporto.",
     "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged non riuscito: {{error}}.",
     "derexsv.ppf.bigcraftable.teleporter.name": "Teletrasportatore PPF",

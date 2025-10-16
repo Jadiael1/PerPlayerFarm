@@ -50,6 +50,7 @@
     "derexsv.ppf.log.trace.client_shadow_created": "[PPF] (client) ombre créée : {{location}}.",
     "derexsv.ppf.log.trace.registry_received": "[PPF] Registre des fermes reçu ({{count}}).",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] Échec de la préparation de l'affichage de la boîte aux lettres : {{error}}.",
+    "derexsv.ppf.log.warn.ppf_door_failed": "[PPF] Échec du traitement de PPF_Door : {{error}}.",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] Mini-obélisque placé manuellement dans {{location}} marqué pour le téléport.",
     "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged a échoué : {{error}}.",
     "derexsv.ppf.bigcraftable.teleporter.name": "Téléporteur PPF",

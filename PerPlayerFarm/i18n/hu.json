@@ -50,6 +50,7 @@
     "derexsv.ppf.log.trace.client_shadow_created": "[PPF] (kliens) árnyék létrehozva: {{location}}.",
     "derexsv.ppf.log.trace.registry_received": "[PPF] Farmnyilvántartás fogadva ({{count}}).",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] A postaláda nézetének előkészítése sikertelen: {{error}}.",
+    "derexsv.ppf.log.warn.ppf_door_failed": "[PPF] A PPF_Door feldolgozása nem sikerült: {{error}}.",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] Kézzel elhelyezett mini obeliszk itt: {{location}} teleport címkét kapott.",
     "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged sikertelen: {{error}}.",
     "derexsv.ppf.bigcraftable.teleporter.name": "PPF teleportáló",

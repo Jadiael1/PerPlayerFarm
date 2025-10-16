@@ -50,6 +50,7 @@
     "derexsv.ppf.log.trace.client_shadow_created": "[PPF] (istemci) gölge oluşturuldu: {{location}}.",
     "derexsv.ppf.log.trace.registry_received": "[PPF] Çiftlik kaydı alındı ({{count}}).",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] Posta kutusu görünümü hazırlanamadı: {{error}}.",
+    "derexsv.ppf.log.warn.ppf_door_failed": "[PPF] PPF_Door işlenemedi: {{error}}.",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] {{location}} konumunda elle yerleştirilen mini obelisk teleporte etiketlendi.",
     "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged başarısız oldu: {{error}}.",
     "derexsv.ppf.bigcraftable.teleporter.name": "PPF Işınlayıcı",

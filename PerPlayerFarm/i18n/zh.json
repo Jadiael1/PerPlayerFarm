@@ -50,6 +50,7 @@
     "derexsv.ppf.log.trace.client_shadow_created": "[PPF] （客户端）已创建影子：{{location}}。",
     "derexsv.ppf.log.trace.registry_received": "[PPF] 已接收农场注册信息（{{count}}）。",
     "derexsv.ppf.log.warn.mailbox_prepare_failed": "[PPF] 准备邮箱视图失败：{{error}}。",
+    "derexsv.ppf.log.warn.ppf_door_failed": "[PPF] 处理 PPF_Door 失败：{{error}}。",
     "derexsv.ppf.log.trace.manual_obelisk_tagged": "[PPF] 手动放置在 {{location}} 的迷你方尖碑已标记为传送。",
     "derexsv.ppf.log.warn.object_list_changed_failed": "[PPF] OnObjectListChanged 失败：{{error}}。",
     "derexsv.ppf.bigcraftable.teleporter.name": "PPF 传送器",
