@@ -14,10 +14,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{371FAB2A-12B2-4BCE-A576-386A0074F647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{371FAB2A-12B2-4BCE-A576-386A0074F647}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{371FAB2A-12B2-4BCE-A576-386A0074F647}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{371FAB2A-12B2-4BCE-A576-386A0074F647}.Release|Any CPU.Build.0 = Release|Any CPU
 		{03317B7B-D267-4B36-A420-E1F028D1DA02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{03317B7B-D267-4B36-A420-E1F028D1DA02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03317B7B-D267-4B36-A420-E1F028D1DA02}.Release|Any CPU.ActiveCfg = Release|Any CPU

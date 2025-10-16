@@ -53,18 +53,17 @@ namespace PerPlayerFarm.Events.ButtonPressed
                 if (!PpfBuildingHelper.TryGetOwnerUid(building, location, out long ownerUid))
                     continue;
 
-                var doorOffset = building.humanDoor.Value;
-                int doorX = building.tileX.Value + doorOffset.X;
-                int doorY = building.tileY.Value + doorOffset.Y;
+                // var doorOffset = building.humanDoor.Value;
+                // int doorX = building.tileX.Value + doorOffset.X;
+                // int doorY = building.tileY.Value + doorOffset.Y;
 
                 Point mailboxTile = PpfBuildingHelper.GetMailboxTile(building);
 
-                bool targetIsDoor = targetX == doorX && targetY == doorY;
+                // bool targetIsDoor = targetX == doorX && targetY == doorY;
                 bool targetIsMailbox = targetX == mailboxTile.X && targetY == mailboxTile.Y;
 
-                if (!targetIsDoor && !targetIsMailbox)
-                    continue;
 
+                /*
                 if (targetIsDoor)
                 {
                     Farmer? owner = Game1.GetPlayer(ownerUid);
@@ -90,6 +89,7 @@ namespace PerPlayerFarm.Events.ButtonPressed
                     _helper.Input.Suppress(e.Button);
                     return;
                 }
+                */
 
                 if (targetIsMailbox)
                 {

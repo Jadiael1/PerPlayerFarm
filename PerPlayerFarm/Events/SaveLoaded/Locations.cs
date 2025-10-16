@@ -20,7 +20,7 @@ namespace PerPlayerFarm.Events.SaveLoaded
                     IsOutdoors = true,
                     IsFarm = true
                 };
-                loc.DisplayName = $"{playerName}";
+                loc.DisplayName = $"Farm {playerName}";
                 Game1.locations.Add(loc);
                 monitor.Log($"{translate.Get("derexsv.ppf.log.notice.invited_ppf_farm_was_loaded_to_the_invited", new { PPF = locName })}", LogLevel.Info);
             }

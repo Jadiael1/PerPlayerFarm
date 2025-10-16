@@ -1,4 +1,4 @@
-namespace PerPLayerFarm.Types
+namespace PerPlayerFarm.Types
 {
     public class WarpLocations
     {

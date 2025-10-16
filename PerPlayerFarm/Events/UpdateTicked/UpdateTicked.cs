@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using PerPlayerFarm.Utils;
-using PerPLayerFarm.Types;
+using PerPlayerFarm.Types;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;

@@ -1,4 +1,4 @@
-using PerPLayerFarm.Types;
+using PerPlayerFarm.Types;
 using StardewModdingAPI;
 
 namespace PerPlayerFarm.Utils

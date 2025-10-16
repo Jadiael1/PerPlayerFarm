@@ -1,5 +1,5 @@
 using PerPlayerFarm.Utils;
-using PerPLayerFarm.Types;
+using PerPlayerFarm.Types;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using xTile;
@@ -12,7 +12,7 @@ namespace PerPlayerFarm.Events.AssetRequested
     {
         public static void Edit(AssetRequestedEventArgs e, IMonitor monitor, ITranslationHelper translate)
         {
-            if (e.NameWithoutLocale.Name is "Maps/BusStop" or "Maps/FarmCave" or "Maps/Backwoods" or "Maps/Forest")
+            if (e.NameWithoutLocale.IsEquivalentTo("Maps/BusStop") || e.NameWithoutLocale.IsEquivalentTo("Maps/FarmCave") || e.NameWithoutLocale.IsEquivalentTo("Maps/Backwoods") || e.NameWithoutLocale.IsEquivalentTo("Maps/Forest"))
             {
                 e.Edit(asset =>
                 {
@@ -31,7 +31,7 @@ namespace PerPlayerFarm.Events.AssetRequested
                     {
                         return;
                     }
-                    List<WarpLocations>? warpsFarm = warps.Where(w => w.TargetName == "Farm").ToList();
+                    List<WarpLocations>? warpsFarm = warps.Where(w => w.TargetName.Equals("Farm", StringComparison.OrdinalIgnoreCase)).ToList();
                     if (warpsFarm is null)
                     {
                         return;
@@ -60,7 +60,7 @@ namespace PerPlayerFarm.Events.AssetRequested
                         {
                             monitor.Log($"{translate.Get("derexsv.ppf.log.notice.null_tile_at_position_xy", new { tyleX = warpsFarm[i].X, tyleY = warpsFarm[i].Y })}", LogLevel.Warn);
                             continue;
-                        }                
+                        }
                         if (tile.Properties.ContainsKey("Action")) tile.Properties.Remove("Action");
                         if (tile.Properties.ContainsKey("TouchAction")) tile.Properties.Remove("TouchAction");
                         tile.Properties["TouchAction"] = $"{Utils.Constants.EnterFarmsActionKey} {warpsFarm[i].X} {warpsFarm[i].Y} {warpsFarm[i].TargetName} {warpsFarm[i].TargetX} {warpsFarm[i].TargetY}";

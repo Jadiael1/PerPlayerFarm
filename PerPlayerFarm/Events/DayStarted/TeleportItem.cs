@@ -250,7 +250,7 @@ namespace PerPlayerFarm.Events.DayStarted
                 bool isOurBC = string.Equals(obj.QualifiedItemId, TeleportQualifiedItemId, StringComparison.Ordinal);
 
 
-                if (obj.modData is not null || hasTag || isOurBC)
+                if (hasTag || isOurBC)
                 {
                     tile = pair.Key;
                     return true;

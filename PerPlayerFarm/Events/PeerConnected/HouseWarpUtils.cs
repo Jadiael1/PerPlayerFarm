@@ -34,10 +34,7 @@ namespace PerPlayerFarm.Events.PeerConnected
         public static void OverrideDefaultHouseWarpToPPF(long ownerUid)
         {
             Farmer? farmer = Game1.getAllFarmers().FirstOrDefault(f => f.UniqueMultiplayerID == ownerUid);
-            if (farmer is null)
-                return;
-
-            if (farmer.IsMainPlayer)
+            if (farmer is null || farmer.IsMainPlayer)
                 return;
 
             if (Utility.getHomeOfFarmer(farmer) is not Cabin home)
@@ -51,8 +48,8 @@ namespace PerPlayerFarm.Events.PeerConnected
             Building? facade = targetLocation.buildings
                 .FirstOrDefault(b => b is not null &&
                                      b.buildingType?.Value == _facadeBuildingId &&
-                                     TryGetOwnerUid(b, targetLocation, out long ownerUid) &&
-                                     ownerUid == farmer.UniqueMultiplayerID);
+                                     TryGetOwnerUid(b, targetLocation, out long facadeOwner) &&
+                                     facadeOwner == farmer.UniqueMultiplayerID);
             if (facade is null)
                 return;
 
@@ -62,10 +59,12 @@ namespace PerPlayerFarm.Events.PeerConnected
 
             string targetName = targetLocation.NameOrUniqueName;
 
-            Warp? entranceWarp = home.warps.FirstOrDefault();
+            var entry = home.getEntryLocation();
+            Warp? entranceWarp = home.warps.FirstOrDefault(w => w.X == entry.X && w.Y == entry.Y);
+
+            // Warp? entranceWarp = home.warps.FirstOrDefault();
             if (entranceWarp is null)
             {
-                Point entry = home.getEntryLocation();
                 entranceWarp = new Warp(entry.X, entry.Y, targetName, exitX, exitY, false);
                 home.warps.Add(entranceWarp);
             }

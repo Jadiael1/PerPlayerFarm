@@ -80,8 +80,8 @@ namespace PerPlayerFarm.Events.ButtonPressed
                 return false;
 
             var location = Game1.currentLocation;
-            if (!IsAnyFarm(location))
-                return false;
+            // if (!IsAnyFarm(location))
+            //     return false;
 
             Vector2 tile = e.Cursor.GrabTile;
 

@@ -1,6 +1,6 @@
 using PerPlayerFarm.Configuration;
 using PerPlayerFarm.Utils;
-using PerPLayerFarm.Types;
+using PerPlayerFarm.Types;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 
@@ -27,12 +27,12 @@ namespace PerPlayerFarm.Events.AssetRequested
                             foreach (var warp in warps)
                             {
                                 // decrements 2 from target y
-                                if (warp.TargetName == "Forest")
+                                if (warp.TargetName.Equals("Forest", StringComparison.OrdinalIgnoreCase))
                                 {
                                     warp.TargetY -= 2;
                                 }
                                 // increments 1 from target y
-                                if (warp.TargetName == "Backwoods")
+                                if (warp.TargetName.Equals("Backwoods", StringComparison.OrdinalIgnoreCase))
                                 {
                                     warp.TargetY += 1;
                                 }
