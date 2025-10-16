@@ -60,7 +60,7 @@ namespace PerPlayerFarm.Events.PeerConnected
             string targetName = targetLocation.NameOrUniqueName;
 
             var entry = home.getEntryLocation();
-            Warp? entranceWarp = home.warps.FirstOrDefault(w => w.X == entry.X && w.Y == entry.Y);
+            Warp? entranceWarp = home.warps.FirstOrDefault(w => w.X == entry.X && w.Y == entry.Y) ?? home.warps.FirstOrDefault();;
 
             // Warp? entranceWarp = home.warps.FirstOrDefault();
             if (entranceWarp is null)

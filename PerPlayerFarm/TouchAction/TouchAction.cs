@@ -93,10 +93,10 @@ namespace PerPlayerFarm.TouchAction
             }
             catch (Exception ex)
             {
-                // _monitor.Log(_translate.Get(
-                //     "derexsv.ppf.log.warn.ppf_door_failed",
-                //     new { error = ex.ToString() }
-                // ), LogLevel.Warn);
+                _monitor.Log(_translate.Get(
+                    "derexsv.ppf.log.warn.ppf_door_failed",
+                    new { error = ex.ToString() }
+                ), LogLevel.Warn);
                 return false;
             }
         }

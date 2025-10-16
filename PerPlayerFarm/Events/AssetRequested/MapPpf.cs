@@ -59,18 +59,14 @@ namespace PerPlayerFarm.Events.AssetRequested
                         {
                             foreach (var warp in warps)
                             {
-                                // decrements 2 from target y
-                                if (warp.TargetName.Equals("Forest", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    warp.TargetY -= 2;
-                                }
-                                // increments 1 from target y
-                                if (warp.TargetName.Equals("Backwoods", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    warp.TargetY += 1;
-                                }
+                                // increment 2 from target y
+                                if (warp.TargetName.Equals("Forest", StringComparison.OrdinalIgnoreCase)) warp.TargetY += 2;
+
+                                // decrement 1 from target y
+                                if (warp.TargetName.Equals("Backwoods", StringComparison.OrdinalIgnoreCase)) warp.TargetY -= 2;
                             }
                             string newWarpsString = ListHelper.ConvertListForString(warps);
+                            monitor.Log($"newWarpsString2 {e.NameWithoutLocale.BaseName}: {newWarpsString}", LogLevel.Debug);
                             map.Properties["Warp"] = newWarpsString;
                         }
                         else
