@@ -12,7 +12,7 @@ namespace PerPlayerFarm.Events.UpdateTicked
         private readonly IModHelper _helper;
         private readonly IMonitor _monitor;
         private readonly ITranslationHelper _translate;
-        private const string _touchKey = Utils.Constants.TouchKey;
+        private const string _enterFarmsActionKey = Utils.Constants.EnterFarmsActionKey;
         private Point? _lastTile;
 
         public UpdateTicked(IModHelper helper, IMonitor monitor)
@@ -42,7 +42,7 @@ namespace PerPlayerFarm.Events.UpdateTicked
 
             if (location.Name is "BusStop" or "FarmCave" or "Backwoods" or "Forest")
             {
-                bool hasMapProp = location.map.Properties.TryGetValue(_touchKey, out var mapProp);
+                bool hasMapProp = location.map.Properties.TryGetValue(_enterFarmsActionKey, out var mapProp);
                 if (!hasMapProp)
                 {
                     _monitor.Log(_translate.Get("derexsv.ppf.log.warn.map_without_data"), LogLevel.Warn);
@@ -64,7 +64,7 @@ namespace PerPlayerFarm.Events.UpdateTicked
                     }
                 }
 
-                string? touchData = location.doesTileHaveProperty(currentTile.X, currentTile.Y, _touchKey, "Back");
+                string? touchData = location.doesTileHaveProperty(currentTile.X, currentTile.Y, _enterFarmsActionKey, "Back");
                 if (string.IsNullOrEmpty(touchData))
                     return;
 

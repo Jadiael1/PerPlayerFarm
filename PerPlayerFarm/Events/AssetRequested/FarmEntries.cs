@@ -60,17 +60,21 @@ namespace PerPlayerFarm.Events.AssetRequested
                         {
                             monitor.Log($"{translate.Get("derexsv.ppf.log.notice.null_tile_at_position_xy", new { tyleX = warpsFarm[i].X, tyleY = warpsFarm[i].Y })}", LogLevel.Warn);
                             continue;
-                        }
-                        tile.Properties[Utils.Constants.TouchKey] = $"{warpsFarm[i].X} {warpsFarm[i].Y} {warpsFarm[i].TargetName} {warpsFarm[i].TargetX} {warpsFarm[i].TargetY}";
+                        }                
+                        if (tile.Properties.ContainsKey("Action")) tile.Properties.Remove("Action");
+                        if (tile.Properties.ContainsKey("TouchAction")) tile.Properties.Remove("TouchAction");
+                        tile.Properties["TouchAction"] = $"{Utils.Constants.EnterFarmsActionKey} {warpsFarm[i].X} {warpsFarm[i].Y} {warpsFarm[i].TargetName} {warpsFarm[i].TargetX} {warpsFarm[i].TargetY}";
                     }
                     if (warpsFarm.Count > 0)
                     {
-                        string resultingString = ListHelper.ConvertListForString(warpsFarm);
-                        map.Properties[Utils.Constants.TouchKey] = $"{resultingString}";
+                        // string resultingString = ListHelper.ConvertListForString(warpsFarm);
+                        // map.Properties[Utils.Constants.EnterFarmsActionKey] = $"{resultingString}";
+                        var newWarps = warps.Where(w => w.TargetName != "Farm").ToList();
+                        string newWarpsString = ListHelper.ConvertListForString(newWarps);
+                        map.Properties["Warp"] = $"{newWarpsString}";
                     }
                 }, AssetEditPriority.Late);
             }
-
         }
     }
 }

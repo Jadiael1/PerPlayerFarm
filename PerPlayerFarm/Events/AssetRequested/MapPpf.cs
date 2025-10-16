@@ -1,4 +1,7 @@
 using Force.DeepCloner;
+using PerPlayerFarm.Configuration;
+using PerPlayerFarm.Utils;
+using PerPLayerFarm.Types;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using xTile;
@@ -27,7 +30,7 @@ namespace PerPlayerFarm.Events.AssetRequested
                     }
             }
         }
-        public static void AddAndEdit(AssetRequestedEventArgs e, IModHelper helper, IMonitor monitor)
+        public static void AddAndEdit(AssetRequestedEventArgs e, IModHelper helper, IMonitor monitor, ModConfig config)
         {
             if (e.NameWithoutLocale.BaseName.StartsWith("Maps/PPF_", StringComparison.OrdinalIgnoreCase))
             {
@@ -39,17 +42,47 @@ namespace PerPlayerFarm.Events.AssetRequested
                 {
                     var editor = asset.AsMap();
                     var map = editor.Data;
+                    var translate = helper.Translation;
 
                     map.Properties["CanBuildHere"] = "T";
 
                     map.Properties.Remove("MailboxLocation");
-                    map.Properties["Warp"] = Utils.Constants.PpfDefaultWarpsFarm;
 
+                    bool hasMapProp = map.Properties.TryGetValue("Warp", out var mapProp);
+                    if (hasMapProp)
+                    {
+                        List<WarpLocations>? warps = ListHelper.ConvertStringForList(mapProp, monitor, translate);
+                        if (warps is not null && warps.Count > 0)
+                        {
+                            foreach (var warp in warps)
+                            {
+                                // decrements 2 from target y
+                                if (warp.TargetName == "Forest")
+                                {
+                                    warp.TargetY -= 2;
+                                }
+                                // increments 1 from target y
+                                if (warp.TargetName == "Backwoods")
+                                {
+                                    warp.TargetY += 1;
+                                }
+                            }
+                            string newWarpsString = ListHelper.ConvertListForString(warps);
+                            map.Properties["Warp"] = newWarpsString;
+                        }
+                        else
+                        {
+                            map.Properties["Warp"] = config.FarmMapWarpProperty;
+                        }
+                    }
+                    else
+                    {
+                        map.Properties["Warp"] = config.FarmMapWarpProperty;
+                    }
                     // Goes through all layers and removes all mailbox, warp and FarmHouse actions.
                     RemovesSpecificActionsFromAllLayers(map, monitor);
                 }, AssetEditPriority.Default);
             }
-
         }
     }
 }
