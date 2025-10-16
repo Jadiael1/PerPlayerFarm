@@ -52,7 +52,7 @@ namespace PerPlayerFarm.Events.Peerconnected
 
         private static bool AlreadyHasPpfFor(long uid)
         {
-            string ownerKey = Utils.Constants.OwnerKey;
+            string ownerKey = Utils.Constants.FacadeOwnerUid;
             return Game1.locations
                 .OfType<StardewValley.Farm>()
                 .Any(loc =>
@@ -85,7 +85,7 @@ namespace PerPlayerFarm.Events.Peerconnected
                     : $"Farm · {uid}";
                 loc.map.Properties["DisplayName"] = new PropertyValue(finalDisplay);
 
-                loc.modData[Utils.Constants.OwnerKey] = uid.ToString(CultureInfo.InvariantCulture);
+                loc.modData[Utils.Constants.FacadeOwnerUid] = uid.ToString(CultureInfo.InvariantCulture);
 
                 Game1.locations.Add(loc);
                 monitor.Log($"{translate.Get("derexsv.ppf.log.notice.invited_ppf_farms_were_loaded_to_the_host", new { PPF = locName })}", LogLevel.Info);

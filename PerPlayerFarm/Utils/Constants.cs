@@ -14,7 +14,6 @@ namespace PerPlayerFarm.Utils
         public const string TeleportQualifiedItemId = "(BC)DerexSV.PPF_Teleporter";
         public const string TeleportModDataMainFarm = "Farm";
         public const string TeleportModDataPpf = "PPF";
-        public const string OwnerKey = "DerexSV.PPF/OwnerUid";
         public const string RegistryMessageType = "PPF_Registry";
         public const string RegistryRequestType = "PPF_RegistryRequest";
     }

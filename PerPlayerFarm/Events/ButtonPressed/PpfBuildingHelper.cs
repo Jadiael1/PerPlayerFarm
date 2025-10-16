@@ -7,12 +7,12 @@ namespace PerPlayerFarm.Events.ButtonPressed
 {
     internal static class PpfBuildingHelper
     {
-        internal const string OwnerKey = Utils.Constants.OwnerKey;
+        internal const string _facadeOwnerUid = Utils.Constants.FacadeOwnerUid;
 
         internal static bool TryGetOwnerUid(Building building, GameLocation location, out long ownerUid)
         {
             ownerUid = 0;
-            if (building.modData.TryGetValue(OwnerKey, out string? uidText) &&
+            if (building.modData.TryGetValue(_facadeOwnerUid, out string? uidText) &&
                 long.TryParse(uidText, NumberStyles.Integer, CultureInfo.InvariantCulture, out ownerUid))
             {
                 return true;
