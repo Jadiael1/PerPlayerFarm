@@ -33,7 +33,6 @@ namespace PerPlayerFarm.Events.AssetRequested
                                 if (warp.TargetName.Equals("Backwoods", StringComparison.OrdinalIgnoreCase)) warp.TargetY -= 2;
                             }
                             string newWarpsString = ListHelper.ConvertListForString(warps);
-                            monitor.Log($"newWarpsString1 {e.NameWithoutLocale.BaseName}: {newWarpsString}", LogLevel.Debug);
                             map.Properties["Warp"] = newWarpsString;
                         }
                         else
