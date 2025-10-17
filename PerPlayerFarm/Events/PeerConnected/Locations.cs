@@ -84,6 +84,7 @@ namespace PerPlayerFarm.Events.Peerconnected
                     ? $"Farm · {displayName}"
                     : $"Farm · {uid}";
                 loc.map.Properties["DisplayName"] = new PropertyValue(finalDisplay);
+                loc.DisplayName = finalDisplay;
 
                 loc.modData[Utils.Constants.FacadeOwnerUid] = uid.ToString(CultureInfo.InvariantCulture);
 
