@@ -48,6 +48,7 @@ namespace PerPlayerFarm
             _ = new RenderedWorld(helper, this.Monitor, mailboxState);
             // _ = new UpdateTicked(helper, this.Monitor);
             _ = new ObjectListChanged(helper, this.Monitor);
+            _ = new Events.MenuChanged.MenuChanged(helper, this.Monitor, config);
 
         }
     }
