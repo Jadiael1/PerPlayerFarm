@@ -1,0 +1,5 @@
+**/[Oo]bj
+**/[Bb]in
+**/PerPlayerFarm.dll
+**/.idea
+/manifest.json
