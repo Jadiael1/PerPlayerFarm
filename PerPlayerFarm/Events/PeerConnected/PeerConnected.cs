@@ -24,12 +24,15 @@ namespace PerPlayerFarm.Events.PeerConnected
             if (!Context.IsMainPlayer)
                 return;
 
+            if (Locations.IsDisabled(_helper, _monitor, _translate))
+                return;
+
             long uid = e.Peer.PlayerID;
             var farmer = Game1.GetPlayer(uid);
             string? displayName = farmer?.displayName;
 
-            Locations.LoadInvitedPpfFarmsForHost(uid, _monitor, _translate, displayName);
-            Locations.LoadFacadeCabinInPpfOfInvitedForHost(uid, _monitor, _translate);
+            Locations.LoadInvitedPpfFarmsForHost(uid, _helper, _monitor, _translate, displayName);
+            Locations.LoadFacadeCabinInPpfOfInvitedForHost(uid, _helper, _monitor, _translate);
             Locations.TrackOwner(uid, _monitor, _helper, _translate);
             HouseWarpUtils.OverrideDefaultHouseWarpToPPF(uid);
         }

@@ -65,5 +65,11 @@
     "derexsv.ppf.travelmenu.prompt.choose_farm": "Choose the farm you want to visit:",
     "derexsv.ppf.command.ensure_teleports.description": "Secures PPF teleporters.\nUse: ppf.ensure-teleports all|here|farm|ppf|<LocationName>\n  all  = all PPF_* and Farm\n  here = only in the current location\n  farm = only on the main Farm\n  ppf  = only in PPF_* (all)\n  <LocationName> = exact name of a location",
     "derexsv.ppf.command.clean.description": "Cleans debris/grass/trees/farm resources (PPF Clean Helper).\nUse: ppf.clean here|all|ppf",
-    "derexsv.ppf.command.strip.description": "Removes vanilla buildings in PPF_* (Farmhouse always, Greenhouse if broken).\nUse: ppf.strip here|all"
+    "derexsv.ppf.command.strip.description": "Removes vanilla buildings in PPF_* (Farmhouse always, Greenhouse if broken).\nUse: ppf.strip here|all",
+    "derexsv.ppf.command.disable.description": "Removes all PPF_* data from the current save and disables automatic recreation.\nUse: ppf.disable",
+    "derexsv.ppf.command.enable.description": "Re-enables PPF_* management for the current save and rebuilds infrastructure when possible.\nUse: ppf.enable",
+    "derexsv.ppf.log.info.disable_already": "[PPF] The mod was already disabled for this save.",
+    "derexsv.ppf.log.info.disable_done": "[PPF] Disabled. Removed {{farms}} PPF_* maps, {{teleports}} teleporters, restored {{warps}} cabin warps.",
+    "derexsv.ppf.log.info.enable_already": "[PPF] The mod is already enabled for this save.",
+    "derexsv.ppf.log.info.enable_done": "[PPF] Re-enabled. PPF_* infrastructure will be recreated as eligible farmers join."
 }

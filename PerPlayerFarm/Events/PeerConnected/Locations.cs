@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using Microsoft.Xna.Framework;
 using PerPlayerFarm.Types;
@@ -43,9 +44,56 @@ namespace PerPlayerFarm.Events.Peerconnected
             _cache = null;
         }
 
+        private static bool IsPpfLocation(GameLocation? loc)
+        {
+            if (loc is null)
+                return false;
+
+            string name = loc.NameOrUniqueName ?? loc.Name ?? string.Empty;
+            return name.StartsWith("PPF_", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static bool IsDisabled(IModHelper helper, IMonitor monitor, ITranslationHelper translate)
+        {
+            var data = ReadSaveData(helper, monitor, translate);
+            return data.IsDisabled;
+        }
+
+        public static void SetDisabled(bool disabled, IModHelper helper, IMonitor monitor, ITranslationHelper translate)
+        {
+            var data = ReadSaveData(helper, monitor, translate);
+            if (data.IsDisabled == disabled)
+                return;
+
+            data.IsDisabled = disabled;
+            if (disabled)
+                data.OwnerUids.Clear();
+
+            WriteSaveData(data, helper);
+        }
+
+        public static int RemoveAllPpfFarms()
+        {
+            int removed = 0;
+            for (int i = Game1.locations.Count - 1; i >= 0; i--)
+            {
+                var loc = Game1.locations[i];
+                if (loc is Farm && IsPpfLocation(loc))
+                {
+                    Game1.locations.RemoveAt(i);
+                    removed++;
+                }
+            }
+
+            return removed;
+        }
+
         public static void TrackOwner(long uid, IMonitor monitor, IModHelper helper, ITranslationHelper translate)
         {
             var data = ReadSaveData(helper, monitor, translate);
+            if (data.IsDisabled)
+                return;
+
             if (data.OwnerUids.Add(uid))
                 WriteSaveData(data, helper);
         }
@@ -63,8 +111,11 @@ namespace PerPlayerFarm.Events.Peerconnected
                 );
         }
 
-        public static void LoadInvitedPpfFarmsForHost(long uid, IMonitor monitor, ITranslationHelper translate, string? displayName = null)
+        public static void LoadInvitedPpfFarmsForHost(long uid, IModHelper helper, IMonitor monitor, ITranslationHelper translate, string? displayName = null)
         {
+            if (IsDisabled(helper, monitor, translate))
+                return;
+
             if (AlreadyHasPpfFor(uid))
                 return;
         
@@ -93,8 +144,11 @@ namespace PerPlayerFarm.Events.Peerconnected
             }
         }
 
-        public static void LoadFacadeCabinInPpfOfInvitedForHost(long uid, IMonitor monitor, ITranslationHelper translate)
+        public static void LoadFacadeCabinInPpfOfInvitedForHost(long uid, IModHelper helper, IMonitor monitor, ITranslationHelper translate)
         {
+            if (IsDisabled(helper, monitor, translate))
+                return;
+
             string locName = $"PPF_{uid}";
             var loc = Game1.getLocationFromName(locName);
             if (loc is not Farm)

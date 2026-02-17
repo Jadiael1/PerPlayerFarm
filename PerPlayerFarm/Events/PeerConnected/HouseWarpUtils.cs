@@ -75,5 +75,56 @@ namespace PerPlayerFarm.Events.PeerConnected
                 entranceWarp.TargetY = exitY;
             }
         }
+
+        public static void RestoreDefaultHouseWarp(long ownerUid)
+        {
+            Farmer? farmer = Game1.getAllFarmers().FirstOrDefault(f => f.UniqueMultiplayerID == ownerUid);
+            if (farmer is null || farmer.IsMainPlayer)
+                return;
+
+            if (Utility.getHomeOfFarmer(farmer) is not Cabin home)
+                return;
+
+            if (Game1.getLocationFromName("Farm") is not Farm farm)
+                return;
+
+            Building? cabin = farm.buildings.FirstOrDefault(b => ReferenceEquals(b.indoors.Value, home));
+            if (cabin is null)
+                return;
+
+            string targetName = farm.NameOrUniqueName ?? farm.Name ?? "Farm";
+            Point doorOffset = cabin.humanDoor.Value;
+            int exitX = cabin.tileX.Value + doorOffset.X;
+            int exitY = cabin.tileY.Value + doorOffset.Y + 1;
+
+            var entry = home.getEntryLocation();
+            Warp? entranceWarp = home.warps.FirstOrDefault(w => w.X == entry.X && w.Y == entry.Y) ?? home.warps.FirstOrDefault();
+            if (entranceWarp is null)
+            {
+                entranceWarp = new Warp(entry.X, entry.Y, targetName, exitX, exitY, false);
+                home.warps.Add(entranceWarp);
+            }
+            else
+            {
+                entranceWarp.TargetName = targetName;
+                entranceWarp.TargetX = exitX;
+                entranceWarp.TargetY = exitY;
+            }
+        }
+
+        public static int RestoreAllDefaultHouseWarps()
+        {
+            int processed = 0;
+            foreach (var farmer in Game1.getAllFarmers())
+            {
+                if (farmer is null || farmer.IsMainPlayer)
+                    continue;
+
+                RestoreDefaultHouseWarp(farmer.UniqueMultiplayerID);
+                processed++;
+            }
+
+            return processed;
+        }
     }
 }

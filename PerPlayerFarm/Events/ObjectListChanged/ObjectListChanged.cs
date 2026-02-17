@@ -1,5 +1,6 @@
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using PeerLocationManager = PerPlayerFarm.Events.Peerconnected.Locations;
 
 namespace PerPlayerFarm.Events.ObjectListChanged
 {
@@ -29,6 +30,9 @@ namespace PerPlayerFarm.Events.ObjectListChanged
             try
             {
                 if (!Context.IsWorldReady || !Context.IsMainPlayer)
+                    return;
+
+                if (PeerLocationManager.IsDisabled(_helper, _monitor, _translate))
                     return;
 
                 var loc = e.Location;

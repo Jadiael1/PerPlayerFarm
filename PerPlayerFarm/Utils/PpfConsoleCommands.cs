@@ -1,8 +1,13 @@
+using System;
 using PerPlayerFarm.Configuration;
-using PerPlayerFarm.Events.DayStarted;
-using PerPlayerFarm.Events.SaveLoaded;
 using StardewModdingAPI;
 using StardewValley;
+using HouseWarpHelper = PerPlayerFarm.Events.PeerConnected.HouseWarpUtils;
+using PeerLocationManager = PerPlayerFarm.Events.Peerconnected.Locations;
+using DayStartedInitializer = PerPlayerFarm.Events.DayStarted.PlayerDataInitializer;
+using TeleporterManager = PerPlayerFarm.Events.DayStarted.TeleportItem;
+using LoadStageInitializer = PerPlayerFarm.Events.LoadStageChanged.PlayerDataInitializer;
+using StripHelper = PerPlayerFarm.Events.SaveLoaded.StripAllBuildingsDefault;
 
 
 namespace PerPlayerFarm.Utils
@@ -27,7 +32,7 @@ namespace PerPlayerFarm.Utils
                     switch (mode.ToLowerInvariant())
                     {
                         case "all":
-                            TeleportItem.Initializer(monitor, translate, config);
+                            TeleporterManager.Initializer(monitor, translate, config);
                             monitor.Log(translate.Get("derexsv.ppf.log.info.teleporters_all"), LogLevel.Info);
                             break;
 
@@ -35,7 +40,7 @@ namespace PerPlayerFarm.Utils
                             {
                                 var loc = Game1.currentLocation;
                                 if (loc == null) { monitor.Log(translate.Get("derexsv.ppf.log.warn.current_location_null"), LogLevel.Warn); return; }
-                                TeleportItem.EnsureIn(loc, monitor, translate, config);
+                                TeleporterManager.EnsureIn(loc, monitor, translate, config);
                                 monitor.Log(translate.Get(
                                     "derexsv.ppf.log.info.teleporter_location",
                                     new { location = loc.NameOrUniqueName ?? loc.Name ?? string.Empty }
@@ -47,7 +52,7 @@ namespace PerPlayerFarm.Utils
                             {
                                 var farm = Game1.getLocationFromName("Farm");
                                 if (farm == null) { monitor.Log(translate.Get("derexsv.ppf.log.warn.farm_not_found"), LogLevel.Warn); return; }
-                                TeleportItem.EnsureIn(farm, monitor, translate, config);
+                                TeleporterManager.EnsureIn(farm, monitor, translate, config);
                                 monitor.Log(translate.Get("derexsv.ppf.log.info.teleporter_farm"), LogLevel.Info);
                                 break;
                             }
@@ -57,7 +62,7 @@ namespace PerPlayerFarm.Utils
                                 int count = 0;
                                 foreach (var loc in Game1.locations.Where(l => (l.NameOrUniqueName ?? l.Name ?? "").StartsWith("PPF_", StringComparison.OrdinalIgnoreCase)))
                                 {
-                                    TeleportItem.EnsureIn(loc, monitor, translate, config);
+                                    TeleporterManager.EnsureIn(loc, monitor, translate, config);
                                     count++;
                                 }
                                 monitor.Log(translate.Get(
@@ -79,7 +84,7 @@ namespace PerPlayerFarm.Utils
                                     ), LogLevel.Warn);
                                     return;
                                 }
-                                TeleportItem.EnsureIn(loc, monitor, translate, config);
+                                TeleporterManager.EnsureIn(loc, monitor, translate, config);
                                 monitor.Log(translate.Get(
                                     "derexsv.ppf.log.info.teleporter_location",
                                     new { location = loc.NameOrUniqueName ?? loc.Name ?? string.Empty }
@@ -106,7 +111,7 @@ namespace PerPlayerFarm.Utils
                             {
                                 if (Game1.currentLocation is Farm f)
                                 {
-                                    PlayerDataInitializer.CleanLocation(f);
+                                    DayStartedInitializer.CleanLocation(f);
                                     monitor.Log(translate.Get(
                                         "derexsv.ppf.log.info.clean_location",
                                         new { location = f.NameOrUniqueName ?? f.Name ?? string.Empty }
@@ -121,7 +126,7 @@ namespace PerPlayerFarm.Utils
                                 int n = 0;
                                 foreach (var f in Game1.locations.OfType<Farm>())
                                 {
-                                    PlayerDataInitializer.CleanLocation(f);
+                                    DayStartedInitializer.CleanLocation(f);
                                     n++;
                                 }
                                 monitor.Log(translate.Get(
@@ -137,7 +142,7 @@ namespace PerPlayerFarm.Utils
                                 foreach (var f in Game1.locations.OfType<Farm>()
                                          .Where(l => (l.NameOrUniqueName ?? l.Name ?? "").StartsWith("PPF_", StringComparison.OrdinalIgnoreCase)))
                                 {
-                                    PlayerDataInitializer.CleanLocation(f);
+                                    DayStartedInitializer.CleanLocation(f);
                                     n++;
                                 }
                                 monitor.Log(translate.Get(
@@ -243,6 +248,57 @@ namespace PerPlayerFarm.Utils
                             new { farm = farm.Name ?? string.Empty, farmhouses = removedHouse, greenhouses = removedGh, unlocked = ghUnlocked }
                         ), LogLevel.Info);
                     }
+                }
+            );
+
+            cmd.Add(
+                "ppf.disable",
+                translate.Get("derexsv.ppf.command.disable.description"),
+                (name, args) =>
+                {
+                    if (!Context.IsWorldReady) { monitor.Log(translate.Get("derexsv.ppf.log.warn.world_not_ready"), LogLevel.Warn); return; }
+                    if (!Context.IsMainPlayer) { monitor.Log(translate.Get("derexsv.ppf.log.warn.host_only_buildings"), LogLevel.Warn); return; }
+
+                    if (PeerLocationManager.IsDisabled(helper, monitor, translate))
+                    {
+                        monitor.Log(translate.Get("derexsv.ppf.log.info.disable_already"), LogLevel.Info);
+                        return;
+                    }
+
+                    int removedTeleports = TeleporterManager.RemoveAllTeleporters();
+                    int restoredWarps = HouseWarpHelper.RestoreAllDefaultHouseWarps();
+                    int removedFarms = PeerLocationManager.RemoveAllPpfFarms();
+
+                    PeerLocationManager.SetDisabled(true, helper, monitor, translate);
+
+                    monitor.Log(translate.Get(
+                        "derexsv.ppf.log.info.disable_done",
+                        new { farms = removedFarms, teleports = removedTeleports, warps = restoredWarps }
+                    ), LogLevel.Info);
+                }
+            );
+
+            cmd.Add(
+                "ppf.enable",
+                translate.Get("derexsv.ppf.command.enable.description"),
+                (name, args) =>
+                {
+                    if (!Context.IsWorldReady) { monitor.Log(translate.Get("derexsv.ppf.log.warn.world_not_ready"), LogLevel.Warn); return; }
+                    if (!Context.IsMainPlayer) { monitor.Log(translate.Get("derexsv.ppf.log.warn.host_only_buildings"), LogLevel.Warn); return; }
+
+                    if (!PeerLocationManager.IsDisabled(helper, monitor, translate))
+                    {
+                        monitor.Log(translate.Get("derexsv.ppf.log.info.enable_already"), LogLevel.Info);
+                        return;
+                    }
+
+                    PeerLocationManager.SetDisabled(false, helper, monitor, translate);
+
+                    LoadStageInitializer.EnsurePerPlayerFarmsFromKnownFarmers(helper, monitor, translate);
+                    TeleporterManager.Initializer(monitor, translate, config);
+                    StripHelper.Strip(monitor, translate);
+
+                    monitor.Log(translate.Get("derexsv.ppf.log.info.enable_done"), LogLevel.Info);
                 }
             );
         }

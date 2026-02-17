@@ -65,5 +65,11 @@
     "derexsv.ppf.travelmenu.prompt.choose_farm": "Escolha a fazenda que deseja visitar:",
     "derexsv.ppf.command.ensure_teleports.description": "Garante os teleporters das PPF.\nUso: ppf.ensure-teleports all|here|farm|ppf|<LocationName>\n  all  = todas as PPF_* e a Fazenda principal\n  here = apenas na localização atual\n  farm = apenas na Fazenda principal\n  ppf  = apenas em todas as PPF_*\n  <LocationName> = nome exato de uma localização",
     "derexsv.ppf.command.clean.description": "Limpa detritos/grama/árvores/recursos (PPF Clean Helper).\nUso: ppf.clean here|all|ppf",
-    "derexsv.ppf.command.strip.description": "Remove construções vanilla nas PPF_* (Farmhouse sempre, Greenhouse se estiver quebrada).\nUso: ppf.strip here|all"
+    "derexsv.ppf.command.strip.description": "Remove construções vanilla nas PPF_* (Farmhouse sempre, Greenhouse se estiver quebrada).\nUso: ppf.strip here|all",
+    "derexsv.ppf.command.disable.description": "Remove todas as PPF_* deste save e desativa a recriação automática.\nUso: ppf.disable",
+    "derexsv.ppf.command.enable.description": "Reativa a gestão das PPF_* neste save e recria a infraestrutura quando possível.\nUso: ppf.enable",
+    "derexsv.ppf.log.info.disable_already": "[PPF] O mod já estava desativado para este save.",
+    "derexsv.ppf.log.info.disable_done": "[PPF] Desativado. Removidos {{farms}} mapas PPF_*, {{teleports}} teleporters e restaurados {{warps}} warps de cabanas.",
+    "derexsv.ppf.log.info.enable_already": "[PPF] O mod já está ativado para este save.",
+    "derexsv.ppf.log.info.enable_done": "[PPF] Reativado. A infraestrutura das PPF_* será recriada quando houver fazendeiros elegíveis."
 }

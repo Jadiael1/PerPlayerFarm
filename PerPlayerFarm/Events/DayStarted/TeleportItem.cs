@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using PerPlayerFarm.Configuration;
 using StardewModdingAPI;
@@ -384,6 +387,51 @@ namespace PerPlayerFarm.Events.DayStarted
             }
 
             EnsureInLocation(loc, flagKey, monitor, translate, config);
+        }
+
+        public static int RemoveAllTeleporters()
+        {
+            int removed = 0;
+
+            foreach (var loc in Game1.locations)
+            {
+                if (loc?.objects is null || loc.objects.Count() == 0)
+                    continue;
+
+                var toRemove = new List<Vector2>();
+                foreach (var pair in loc.objects.Pairs)
+                {
+                    var obj = pair.Value;
+                    if (obj is null || !obj.bigCraftable.Value)
+                        continue;
+
+                    bool matches = false;
+                    if (obj.modData?.TryGetValue(TeleportModDataKey, out var tag) == true &&
+                        (tag.Equals(TeleportModDataMainFarm, StringComparison.OrdinalIgnoreCase) ||
+                         tag.Equals(TeleportModDataPpf, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        matches = true;
+                    }
+                    else if (string.Equals(obj.QualifiedItemId, TeleportQualifiedItemId, StringComparison.Ordinal))
+                    {
+                        matches = true;
+                    }
+
+                    if (matches)
+                        toRemove.Add(pair.Key);
+                }
+
+                foreach (var tile in toRemove)
+                {
+                    if (loc.objects.Remove(tile))
+                        removed++;
+                }
+
+                loc.modData.Remove(PlacedKey);
+                loc.modData.Remove(PlacedMainFarmKey);
+            }
+
+            return removed;
         }
     }
 }

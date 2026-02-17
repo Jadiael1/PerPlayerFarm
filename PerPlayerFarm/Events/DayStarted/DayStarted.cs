@@ -3,6 +3,7 @@ using PerPlayerFarm.Events.SaveLoaded;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using PeerLocations = PerPlayerFarm.Events.Peerconnected.Locations;
 
 namespace PerPlayerFarm.Events.DayStarted
 {
@@ -24,6 +25,10 @@ namespace PerPlayerFarm.Events.DayStarted
         }
         public void OnDayStarted(object? sender, DayStartedEventArgs e)
         {
+            var data = PeerLocations.ReadSaveData(_helper, _monitor, _translate);
+            if (data.IsDisabled)
+                return;
+
             PlayerDataInitializer.ClearPpfIfFirstInit(_helper, _monitor, _translate);
             if (!Context.IsMainPlayer)
             {

@@ -20,8 +20,25 @@ namespace PerPlayerFarm.Events.Saving
             if (!Context.IsMainPlayer)
                 return;
 
+            PpfSaveData persisted;
+            try
+            {
+                persisted = _helper.Data.ReadSaveData<PpfSaveData>(Utils.Constants.SaveKey) ?? new PpfSaveData();
+            }
+            catch
+            {
+                persisted = new PpfSaveData();
+            }
+
+            if (persisted.IsDisabled)
+            {
+                persisted.OwnerUids.Clear();
+                _helper.Data.WriteSaveData(Utils.Constants.SaveKey, persisted);
+                return;
+            }
+
             // rewrites the list from what is in the world (idempotent)
-            PpfSaveData? data = new ();
+            var data = new PpfSaveData();
             foreach (GameLocation? loc in Game1.locations)
             {
                 if (loc?.Name is string name && name.StartsWith("PPF_", StringComparison.Ordinal))

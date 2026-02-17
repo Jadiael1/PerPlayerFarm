@@ -5,6 +5,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
+using PeerLocations = PerPlayerFarm.Events.Peerconnected.Locations;
 
 namespace PerPlayerFarm.Events.MenuChanged
 {
@@ -28,6 +29,9 @@ namespace PerPlayerFarm.Events.MenuChanged
         private void OnMenuChanged(object? sender, MenuChangedEventArgs e)
         {
             if (!Context.IsWorldReady || !Context.IsMainPlayer) return;
+
+            if (PeerLocations.IsDisabled(_helper, _monitor, _translate))
+                return;
 
             if (e.OldMenu is CarpenterMenu && e.NewMenu is null)
             {

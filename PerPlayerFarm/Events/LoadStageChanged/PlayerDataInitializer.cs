@@ -27,10 +27,13 @@ namespace PerPlayerFarm.Events.LoadStageChanged
         private static void EnsurePpfPerPlayerFromSaveData(IModHelper helper, IMonitor monitor, ITranslationHelper translate)
         {
             var data = Peerconnected.Locations.ReadSaveData(helper, monitor, translate);
+            if (data.IsDisabled)
+                return;
+
             foreach (var uid in data.OwnerUids)
             {
-                Peerconnected.Locations.LoadInvitedPpfFarmsForHost(uid, monitor, translate);
-                Peerconnected.Locations.LoadFacadeCabinInPpfOfInvitedForHost(uid, monitor, translate);
+                Peerconnected.Locations.LoadInvitedPpfFarmsForHost(uid, helper, monitor, translate);
+                Peerconnected.Locations.LoadFacadeCabinInPpfOfInvitedForHost(uid, helper, monitor, translate);
                 Peerconnected.Locations.TrackOwner(uid, monitor, helper, translate);
                 PeerConnected.HouseWarpUtils.OverrideDefaultHouseWarpToPPF(uid);
             }
@@ -39,6 +42,8 @@ namespace PerPlayerFarm.Events.LoadStageChanged
         public static void EnsurePerPlayerFarmsFromKnownFarmers(IModHelper helper, IMonitor monitor, ITranslationHelper translate)
         {
             Types.PpfSaveData data = Peerconnected.Locations.ReadSaveData(helper, monitor, translate);
+            if (data.IsDisabled)
+                return;
 
             var eligible = Utils.EligibleFarmers.Get(helper);
             if (eligible is null)
@@ -68,8 +73,8 @@ namespace PerPlayerFarm.Events.LoadStageChanged
                     continue;
                 }
                 string? displayName = farmer?.displayName;
-                Peerconnected.Locations.LoadInvitedPpfFarmsForHost(uid, monitor, translate, displayName);
-                Peerconnected.Locations.LoadFacadeCabinInPpfOfInvitedForHost(uid, monitor, translate);
+                Peerconnected.Locations.LoadInvitedPpfFarmsForHost(uid, helper, monitor, translate, displayName);
+                Peerconnected.Locations.LoadFacadeCabinInPpfOfInvitedForHost(uid, helper, monitor, translate);
                 Peerconnected.Locations.TrackOwner(uid, monitor, helper, translate);
                 PeerConnected.HouseWarpUtils.OverrideDefaultHouseWarpToPPF(uid);
             }
