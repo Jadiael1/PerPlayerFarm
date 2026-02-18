@@ -17,14 +17,14 @@
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
     <IgnoreModFilePatterns>(^|[/\\])\.git($|[/\\])|(^|[/\\])\.vs($|[/\\])|(^|[/\\])\.vscode($|[/\\])|(^|[/\\])\.idea($|[/\\])|(^|[/\\])Docs($|[/\\])|(^|[/\\])src($|[/\\])|(^|[/\\])assets($|[/\\])</IgnoreModFilePatterns>
-    <IgnoreModFilePaths>.gitignore, .gitattributes, .gitmodules, .editorconfig, PerPlayerFarm.sln, nuget.config, global.json</IgnoreModFilePaths>
+    <IgnoreModFilePaths>.gitignore, .gitattributes, .gitmodules, .editorconfig, PerPlayerFarm.sln, nuget.config, global.json, README.md</IgnoreModFilePaths>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <DebugType>true</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <IgnoreModFilePatterns>(^|[/\\])\.git($|[/\\])|(^|[/\\])\.vs($|[/\\])|(^|[/\\])\.vscode($|[/\\])|(^|[/\\])\.idea($|[/\\])|(^|[/\\])Docs($|[/\\])</IgnoreModFilePatterns>
-    <IgnoreModFilePaths>.gitignore, .gitattributes, .gitmodules, .editorconfig, nuget.config</IgnoreModFilePaths>
+    <IgnoreModFilePaths>.gitignore, .gitattributes, .gitmodules, .editorconfig, nuget.config, README.md</IgnoreModFilePaths>
   </PropertyGroup>
   
   <ItemGroup>
