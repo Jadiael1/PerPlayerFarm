@@ -5,7 +5,7 @@ namespace PerPlayerFarm.Helpers
 {
     public static class MapHelpers
     {
-        public static void EnsurePlayerMap(long uid, string? displayName, IModHelper helper, IMonitor monitor, HashSet<long> knownFarmhandIds)
+        public static void EnsurePlayerMap(long uid, string? displayName, IModHelper helper, IMonitor monitor, HashSet<long> knownFarmhandIds, bool stripStarterCabins = false)
         {
             string name = $"PPF_{uid}";
             var existing = Game1.getLocationFromName(name);
@@ -28,6 +28,17 @@ namespace PerPlayerFarm.Helpers
             };
             loc.isAlwaysActive.Value = true;
             loc.AddDefaultBuildings(true);
+
+            if (stripStarterCabins)
+            {
+                for (int i = loc.buildings.Count - 1; i >= 0; --i)
+                {
+                    var b = loc.buildings[i];
+                    if (string.Equals(b?.buildingType?.Value, "Cabin", StringComparison.OrdinalIgnoreCase))
+                        loc.buildings.RemoveAt(i);
+                }
+            }
+
             loc.DisplayName = desiredDisplayName;
             Game1.locations.Add(loc);
             // var farm = Game1.getFarm();

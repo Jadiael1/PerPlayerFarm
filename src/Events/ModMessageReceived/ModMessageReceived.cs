@@ -39,7 +39,7 @@ namespace PerPlayerFarm.Events.ModMessageReceived
                 {
                     if (f.UniqueMultiplayerID == payload.UniqueMultiplayerId)
                     {
-                        MapHelpers.EnsurePlayerMap(payload.UniqueMultiplayerId, payload.Name, helper, monitor, knownFarmhandIds);
+                        MapHelpers.EnsurePlayerMap(payload.UniqueMultiplayerId, payload.Name, helper, monitor, knownFarmhandIds, Context.IsMainPlayer);
                         knownFarmhandIds.Add(payload.UniqueMultiplayerId);
 
                         if (Context.IsMainPlayer && config.WarpToPPFOnHouseExit)
