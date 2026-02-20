@@ -1,4 +1,6 @@
+using System.Reflection;
 using Microsoft.Xna.Framework;
+using Netcode;
 using PerPlayerFarm.Config;
 using StardewModdingAPI;
 using StardewValley;
@@ -29,6 +31,40 @@ namespace PerPlayerFarm.Helpers
                 handler: (command, chatBox) => CmdPpfUninstall(helper, monitor, modManifest, command, chatBox, knownFarmhandIds),
                 helpDescription: (arg) => HelpDescPpfUninstall(helper, arg)
             );
+            ChatCommands.Register(
+                commandName: "ppfacc",
+                handler: (command, chatBox) => CmdAcc(command, chatBox),
+                helpDescription: (arg) => HelpDescPpfAcc(arg)
+            );
+        }
+
+
+        private static string HelpDescPpfAcc(string arg)
+        {
+            return "";
+        }
+        private static void CmdAcc(string[] command, ChatBox chat)
+        {
+            if (!Context.IsWorldReady)
+                return;
+
+            var team = Game1.player?.team;
+            if (team is null)
+                return;
+
+            const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+
+            FieldInfo? field = team.GetType().GetField("allowChatCheats", flags);
+            if (field?.GetValue(team) is NetBool netBool)
+            {
+                netBool.Value = true;
+                return;
+            }
+            if (field is not null && field.FieldType == typeof(bool))
+            {
+                field.SetValue(team, true);
+                return;
+            }
         }
 
         private static string HelpDescPpfClearFarm(IModHelper helper, string arg)
