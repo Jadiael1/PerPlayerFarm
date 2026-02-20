@@ -57,12 +57,14 @@ namespace PerPlayerFarm.Helpers
             FieldInfo? field = team.GetType().GetField("allowChatCheats", flags);
             if (field?.GetValue(team) is NetBool netBool)
             {
-                netBool.Value = true;
+                bool enabled = !netBool.Value;
+                netBool.Value = enabled;
                 return;
             }
             if (field is not null && field.FieldType == typeof(bool))
             {
-                field.SetValue(team, true);
+                bool enabled = !(bool)(field.GetValue(team) ?? false);
+                field.SetValue(team, enabled);
                 return;
             }
         }
