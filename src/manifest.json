@@ -5,7 +5,7 @@
   "Description": "Creates farms per player (PPF_<id>), names.",
   "UniqueID": "DerexSV.PerPlayerFarm",
   "EntryDll": "PerPlayerFarm.dll",
-  "MinimumApiVersion": "4.5.1",
+  "MinimumApiVersion": "4.1.7",
   "UpdateKeys": [ "Nexus:38441" ],
   "Dependencies": [
     {
