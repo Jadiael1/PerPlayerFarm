@@ -14,13 +14,13 @@ Instead of everyone sharing only the main Farm, each invited player can have a p
 ## Compatibility
 
 - **Stardew Valley:** `1.6.15`
-- **SMAPI:** `4.4.0`
+- **SMAPI:** `4.1.7`
 
 ---
 
 ## Requirements
 
-- SMAPI 4.4.0+
+- SMAPI 4.1.7+
 - Stardew Valley 1.6.15
 - Generic Mod Config Menu (optional, recommended)
 
@@ -28,7 +28,7 @@ Instead of everyone sharing only the main Farm, each invited player can have a p
 
 ## Installation
 
-1. Install **SMAPI 4.4.0+**
+1. Install **SMAPI 4.1.7+**
 2. Extract this mod into your `Mods` folder
 
 ---
