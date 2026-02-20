@@ -2,6 +2,9 @@
 
 **Nexus page:** https://www.nexusmods.com/stardewvalley/mods/38441
 
+If you want to understand more about what inspired me and the workflow for building this MOD, read here:
+https://jadiael.dev/blog/3
+
 Per Player Farm creates a separate farm space for each farmhand in multiplayer.
 
 Instead of everyone sharing only the main Farm, each invited player can have a personal `PPF_*` farm, with proper entrance redirection and owner-aware mailbox behavior. This keeps multiplayer progression organized while preserving a familiar gameplay flow.
